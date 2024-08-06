@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,12 +7,131 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model detail_transaction {
+  id          Int           @id @unique(map: "id") @default(autoincrement())
+  event_id    Int
+  discount_id Int
+  event       event         @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk1")
+  discount    discount      @relation(fields: [discount_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk2")
+  transaction transaction[]
 
-  @@map("samples") // if you want to use snake_case format
+  @@index([event_id], map: "Detail_Transaction_fk1")
+  @@index([discount_id], map: "Detail_Transaction_fk2")
+}
+
+model discount {
+  id                 Int                  @id @unique(map: "id") @default(autoincrement())
+  title              String               @db.VarChar(255)
+  referral_code      String               @db.VarChar(255)
+  description        String               @db.VarChar(255)
+  tanggal            DateTime             @db.Date
+  price              Int
+  detail_transaction detail_transaction[]
+}
+
+model event {
+  id                 Int                  @id @unique(map: "id") @default(autoincrement())
+  nama_event         String               @db.VarChar(255)
+  tanggal_event      DateTime             @db.Date
+  location_id        Int
+  jam_event          DateTime             @db.Time(0)
+  type_id            Int
+  deskripsi_event    String               @db.VarChar(255)
+  detail_transaction detail_transaction[]
+  location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
+  type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
+  feedback           feedback[]
+  point              point[]
+  status             STATUS
+
+  @@index([location_id], map: "Event_fk3")
+  @@index([type_id], map: "Event_fk5")
+}
+
+model feedback {
+  id       Int    @id @unique(map: "id") @default(autoincrement())
+  event_id Int
+  user_id  Int
+  feedback String @db.VarChar(255)
+  event    event  @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Feedback_fk1")
+  user     user   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Feedback_fk2")
+
+  @@index([event_id], map: "Feedback_fk1")
+  @@index([user_id], map: "Feedback_fk2")
+}
+
+model location {
+  id            Int     @id @unique(map: "id") @default(autoincrement())
+  location_name String  @db.VarChar(255)
+  event         event[]
+}
+
+model point {
+  id         Int      @id @unique(map: "id") @default(autoincrement())
+  user_id    Int
+  event_id   Int
+  amount     Int
+  datecreate DateTime @db.Date
+  user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk1")
+  event      event    @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk2")
+
+  @@index([user_id], map: "Point_fk1")
+  @@index([event_id], map: "Point_fk2")
+}
+
+model role {
+  id        Int    @id @unique(map: "id") @default(autoincrement())
+  role_name ROLE
+  user      user[]
+}
+
+model transaction {
+  id                    Int                @id @unique(map: "id") @default(autoincrement())
+  user_id               Int
+  amount                Int
+  createdAt             Int
+  detail_transaction_id Int
+  user                  user               @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk1")
+  detail_transaction    detail_transaction @relation(fields: [detail_transaction_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk4")
+
+  @@index([user_id], map: "Transaction_fk1")
+  @@index([detail_transaction_id], map: "Transaction_fk4")
+}
+
+model type {
+  id        Int     @id @unique(map: "id") @default(autoincrement())
+  type_name TYPE
+  event     event[]
+}
+
+model user {
+  id          Int           @id @unique(map: "id") @default(autoincrement())
+  name        String        @db.VarChar(255)
+  username    String        @db.VarChar(255)
+  email       String        @db.VarChar(255)
+  notelp      String        @db.VarChar(255)
+  role_id     Int
+  feedback    feedback[]
+  point       point[]
+  transaction transaction[]
+  role        role          @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "User_fk5")
+
+  @@index([role_id], map: "User_fk5")
+
+}
+
+enum STATUS {
+  UPCOMING
+  ONGOING
+  COMPLETED
+}
+
+enum ROLE {
+  CUSTOMER
+  ADMIN
+}
+
+enum TYPE {
+  FREE
+  PAID
 }
