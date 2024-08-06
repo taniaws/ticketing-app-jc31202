@@ -8,8 +8,9 @@ import express, {
   Router,
 } from 'express';
 import cors from 'cors';
-import { PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
+
+const PORT = process.env.PORT;
 
 export default class App {
   private app: Express;
@@ -26,6 +27,7 @@ export default class App {
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
   }
+
 
   private handleError(): void {
     // not found
