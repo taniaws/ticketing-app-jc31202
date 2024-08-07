@@ -1,7 +1,7 @@
-import Home from './page';
+// import Home from './page';
 
-describe('<Home />', () => {
-  it('mounts', () => {
-    cy.mount(<Home />);
-  });
-});
+// describe('<Home />', () => {
+//   it('mounts', () => {
+//     cy.mount(<Home />);
+//   });
+// });

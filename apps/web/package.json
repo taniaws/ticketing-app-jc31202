@@ -10,15 +10,22 @@
     "test": "npx cypress verify & cypress run --component"
   },
   "dependencies": {
+    "@radix-ui/react-navigation-menu": "^1.2.0",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "contentful": "^10.13.1",
     "cross-env": "^7.0.3",
+    "express-validator": "^7.1.0",
     "formik": "^2.4.6",
+    "lucide-react": "^0.424.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-redux": "^9.1.2",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {

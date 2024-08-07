@@ -40,13 +40,11 @@
   "dependencies": {
     "@prisma/client": "^5.17.0",
     "@types/axios": "^0.14.0",
-    "axios": "^1.7.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "mysql2": "^3.11.0"
+    "axios": "^1.7.3"
   },
-  "prisma": {
-    "schema": "apps/api/prisma/schema.prisma"
-  }
+  "version": "1.0.0",
+  "description": "This project uses React.js with NextJS for the frontend, Express.js for the backend, and TurboRepo for monorepo management, facilitating rapid development of a scalable web application with streamlined collaboration and efficient server-client interactions.",
+  "main": "commitlint.config.js",
+  "author": "",
+  "license": "ISC"
 }
