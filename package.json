@@ -44,7 +44,8 @@
     "@types/axios": "^0.14.0",
     "axios": "^1.7.3",
     "bcrypt": "^5.1.1",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "react-toastify": "^10.0.5"
   },
   "version": "1.0.0",
   "description": "This project uses React.js with NextJS for the frontend, Express.js for the backend, and TurboRepo for monorepo management, facilitating rapid development of a scalable web application with streamlined collaboration and efficient server-client interactions.",

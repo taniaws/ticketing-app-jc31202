@@ -34,7 +34,6 @@ model event {
   nama_event         String               @db.VarChar(255)
   tanggal_event      DateTime             @db.Date
   location_id        Int
-  jam_event          DateTime             @db.Time(0)
   type_id            Int
   deskripsi_event    String               @db.VarChar(255)
   status             STATUS
@@ -110,7 +109,6 @@ model type {
 model user {
   id                 Int           @id @unique(map: "id") @default(autoincrement())
   name               String        @db.VarChar(255)
-  username           String        @db.VarChar(255)
   email              String        @unique @db.VarChar(255)
   notelp             String        @db.VarChar(255)
   role_id            Int

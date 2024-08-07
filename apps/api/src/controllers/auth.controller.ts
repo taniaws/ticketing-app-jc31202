@@ -17,7 +17,6 @@ export class AuthController {
             const user = await prisma.user.create({
                 data: {
                     name: req.body.name,
-                    username: req.body.username,
                     email: req.body.email,
                     notelp: req.body.notelp,
                     role_id: req.body.role_id,
@@ -71,7 +70,7 @@ export class AuthController {
                       throw {
                         rc: 400,
                         success: false,
-                        message: `Your account is Suspend, contact Admin`,
+                        message: `Your account is Suspended, contact Admin`,
                       };
                     }
                 }
