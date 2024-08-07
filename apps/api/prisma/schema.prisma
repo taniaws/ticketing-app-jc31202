@@ -1,5 +1,3 @@
-  // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -39,15 +37,18 @@ model event {
   jam_event          DateTime             @db.Time(0)
   type_id            Int
   deskripsi_event    String               @db.VarChar(255)
+  status             STATUS
+  categori_id        Int
   detail_transaction detail_transaction[]
   location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
   type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
+  categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
   feedback           feedback[]
   point              point[]
-  status             STATUS
 
   @@index([location_id], map: "Event_fk3")
   @@index([type_id], map: "Event_fk5")
+  @@index([categori_id], map: "Event_fk7_idx")
 }
 
 model feedback {
@@ -119,7 +120,12 @@ model user {
   role        role          @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "User_fk5")
 
   @@index([role_id], map: "User_fk5")
+}
 
+model categori {
+  id           Int     @id @default(autoincrement())
+  categoriname String  @db.VarChar(45)
+  event        event[]
 }
 
 enum STATUS {
