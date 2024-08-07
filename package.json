@@ -13,8 +13,10 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.2",
     "@commitlint/config-conventional": "^18.4.2",
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^22.1.0",
     "eslint": "^8.48.0",
     "husky": "^8.0.0",
@@ -40,7 +42,9 @@
   "dependencies": {
     "@prisma/client": "^5.17.0",
     "@types/axios": "^0.14.0",
-    "axios": "^1.7.3"
+    "axios": "^1.7.3",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "version": "1.0.0",
   "description": "This project uses React.js with NextJS for the frontend, Express.js for the backend, and TurboRepo for monorepo management, facilitating rapid development of a scalable web application with streamlined collaboration and efficient server-client interactions.",
