@@ -8,7 +8,7 @@ import express, {
   Router,
 } from 'express';
 import cors from 'cors';
-import { SampleRouter } from './routers/sample.router';
+import { EventRouter } from './routers/event.router';
 
 const PORT = process.env.PORT;
 
@@ -27,7 +27,6 @@ export default class App {
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
   }
-
 
   private handleError(): void {
     // not found
@@ -53,13 +52,9 @@ export default class App {
   }
 
   private routes(): void {
-    const sampleRouter = new SampleRouter();
+    const eventRouter = new EventRouter();
 
-    this.app.get('/api', (req: Request, res: Response) => {
-      res.send(`Hello, Purwadhika Student API!`);
-    });
-
-    this.app.use('/api/samples', sampleRouter.getRouter());
+    this.app.use('/api/event', eventRouter.getRoute());
   }
 
   public start(): void {
