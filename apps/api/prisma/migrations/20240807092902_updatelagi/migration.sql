@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
--- ALTER TABLE `event` DROP COLUMN `jam_event`;
+ALTER TABLE `event` DROP COLUMN `jam_event`;
