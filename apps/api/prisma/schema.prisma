@@ -109,7 +109,6 @@ model type {
 model user {
   id          Int           @id @unique(map: "id") @default(autoincrement())
   name        String        @db.VarChar(255)
-  username    String        @db.VarChar(255)
   email       String        @db.VarChar(255)
   notelp      String        @db.VarChar(255)
   role_id     Int
