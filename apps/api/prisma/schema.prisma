@@ -107,15 +107,18 @@ model type {
 }
 
 model user {
-  id          Int           @id @unique(map: "id") @default(autoincrement())
-  name        String        @db.VarChar(255)
-  email       String        @db.VarChar(255)
-  notelp      String        @db.VarChar(255)
-  role_id     Int
-  feedback    feedback[]
-  point       point[]
-  transaction transaction[]
-  role        role          @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "User_fk5")
+  id                 Int           @id @unique(map: "id") @default(autoincrement())
+  name               String        @db.VarChar(255)
+  email              String        @unique @db.VarChar(255)
+  notelp             String        @db.VarChar(255)
+  role_id            Int
+  isBlocked          Boolean       @default(false)
+  limitWrongPassword Int           @default(0)
+  password           String        @db.VarChar(350)
+  feedback           feedback[]
+  point              point[]
+  transaction        transaction[]
+  role               role          @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "User_fk5")
 
   @@index([role_id], map: "User_fk5")
 }
