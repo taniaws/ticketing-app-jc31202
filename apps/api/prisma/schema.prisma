@@ -36,8 +36,8 @@ model event {
   location_id        Int
   type_id            Int
   deskripsi_event    String               @db.VarChar(255)
-  status             STATUS
   categori_id        Int
+  status_id          Int
   detail_transaction detail_transaction[]
   location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
   type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
@@ -129,10 +129,9 @@ model categori {
   event        event[]
 }
 
-enum STATUS {
-  UPCOMING
-  ONGOING
-  COMPLETED
+model status {
+  id         Int     @id @default(autoincrement())
+  Statusname String? @db.VarChar(45)
 }
 
 enum ROLE {
@@ -143,4 +142,10 @@ enum ROLE {
 enum TYPE {
   FREE
   PAID
+}
+
+enum STATUS {
+  UPCOMING
+  ONGOING
+  COMPLETED
 }

@@ -1,4 +1,4 @@
-"use cleint"
+"use client"
 import { NavigationMenu,NavigationMenuItem } from '@radix-ui/react-navigation-menu';
 import Link from 'next/link';
 import * as React from 'react';

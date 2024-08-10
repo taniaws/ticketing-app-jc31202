@@ -4,6 +4,7 @@ import { hashPassword } from "../utils/hash";
 import { compareSync } from "bcrypt";
 import { createToken } from "../utils/jwt";
 
+
 interface IUser {
     email: string;
     notelp?: string;

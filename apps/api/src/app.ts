@@ -8,6 +8,7 @@ import express, {
   Router,
 } from 'express';
 import cors from 'cors';
+import { EventRouter } from './routers/event.router';
 import { AuthRouter } from './routers/auth.router';
 
 const PORT = process.env.port;
@@ -29,7 +30,6 @@ export default class App {
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
   }
-
 
   private handleError(): void {
     // not found
@@ -55,6 +55,9 @@ export default class App {
   }
 
   private routes(): void {
+    const eventRouter = new EventRouter();
+
+    this.app.use('/api/event', eventRouter.getRoute());
     const authRouter = new AuthRouter();
     this.app.use('/api/auth', authRouter.getRoute());
   }
