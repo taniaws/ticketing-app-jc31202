@@ -15,21 +15,34 @@ export class AuthController {
     //Register
     async regis(req: Request, res: Response, next: NextFunction) {
         try {
-            const user = await prisma.user.create({
-                data: {
-                    name: req.body.name,
-                    email: req.body.email,
-                    notelp: req.body.notelp,
-                    role_id: req.body.role_id,
-                    password:  await hashPassword(req.body.password),
-                },
-            });
-            console.log("User:", user);
+          const existingUser = await prisma.user.findUnique({
+              where: { email: req.body.email },
+          });
 
-            return res.status(201).send({
-                success: true,
-                message: "Your account is created"
-            })
+          console.log("existing user::", existingUser)
+
+          if (existingUser) {
+              return res.status(409).send({
+                  success: false,
+                  message: "Email is already taken",
+              });
+          }
+
+          const user = await prisma.user.create({
+              data: {
+                  name: req.body.name,
+                  email: req.body.email,
+                  notelp: req.body.notelp,
+                  role_id: req.body.role_id,
+                  password:  await hashPassword(req.body.password),
+              },
+          });
+          console.log("User Created:", user);
+
+          return res.status(201).send({
+              success: true,
+              message: "Your account is created"
+          })
         } catch (error) {
             console.log(error);
             next({

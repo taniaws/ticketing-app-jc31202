@@ -2,12 +2,11 @@ import { UserContext } from "@/context/UserContext"
 import { useRouter } from "next/navigation";
 import { ComponentType, useContext, useEffect } from "react"
 
-
-
 const withAuth = (WrappedComponent: ComponentType<any>) => {
     return (props: any) => {
         const router = useRouter()
         const { user } = useContext(UserContext);
+        console.log("USER::", user);
         useEffect(() => {
             if(!user?.email) {
                 router.replace("/login");

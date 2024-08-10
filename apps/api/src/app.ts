@@ -11,7 +11,9 @@ import cors from 'cors';
 import { EventRouter } from './routers/event.router';
 import { AuthRouter } from './routers/auth.router';
 
-const PORT = process.env.PORT;
+const PORT = process.env.port;
+console.log("port::", PORT);
+
 
 export default class App {
   private app: Express;
