@@ -10,7 +10,9 @@ import express, {
 import cors from 'cors';
 import { AuthRouter } from './routers/auth.router';
 
-const PORT = process.env.PORT;
+const PORT = process.env.port;
+console.log("port::", PORT);
+
 
 export default class App {
   private app: Express;

@@ -24,10 +24,12 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
 
   const onSubmit = async (): Promise<void> => {
     try {
-      const { data } = await axios.post("/auth/login", {
+      const { data } = await axios.post("/api/auth/login", {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       });
+
+      console.log("email::", emailRef.current?.value)
 
       toast(`Welcome ${data.result.name}`);
       localStorage.setItem("auth", JSON.stringify(data.result.token));
@@ -41,7 +43,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       router.push("/");
     } catch (error: any) {
       console.log(error);
-      toast(error.response.data.error.message);
+      //toast(error.response.data.error.message);
     }
   };
 
@@ -65,7 +67,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
         <h1 className='font-bold text-3xl pr-10 text-orange-500 pb-5'> Bad Event Surabaya</h1>
         <div className="flex items-center pb-10 justify-between">
             <h1 className='font-bold text-4xl text-center pr-10'> Log in </h1>
-            <Link href="/login" className="text-blue-500 font-semibold text-lg"> Sign Up </Link>
+            <Link href="/register" className="text-blue-500 font-semibold text-lg"> Sign Up </Link>
         </div>
         <form className='flex flex-col'>
           <div className="flex flex-col relative pb-5">

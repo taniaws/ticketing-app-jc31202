@@ -33,22 +33,27 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
   
   const onSubmit = async (e: React.FormEvent): Promise<void> => {
     try {
+      console.log("EMAILREF::", emailRef)
       if (passwordRef.current?.value === confirmPasswordRef.current?.value) {
-        const regis = await axios.post("/auth/regis", {
-            name: nameRef.current?.value,
-            notelp: phoneRef.current?.value,
-            role_id: roleRef.current?.value,
-            email: emailRef.current?.value,
-            password: passwordRef.current?.value,
-        });
+        const userData = {
+          name: nameRef.current?.value,
+          notelp: phoneRef.current?.value,
+          role_id: roleRef.current?.value,
+          email: emailRef.current?.value,
+          password: passwordRef.current?.value,
+        };
+        console.log("Submitted Data:", userData);
+
+        const regis = await axios.post("/api/auth/regis", userData);
         toast(regis.data.message);
         router.push("/");
       } else {
+        console.log("Password do not match")
         toast("Passwords do not match");
       }
     } catch (error: any) {
       console.log(error);
-      toast(error.response.data.error.message);
+      //toast(error.response.data.error.message);
     }
   };
 

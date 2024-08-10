@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { AuthController } from '@/controllers/auth.controller';
-import { verifyToken } from '@/middleware/verifyToken';
+import { AuthController } from '../controllers/auth.controller';
+import { verifyToken } from '../middleware/verifyToken';
 
 export class AuthRouter {
   private route: Router;
