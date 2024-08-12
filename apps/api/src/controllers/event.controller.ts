@@ -35,7 +35,6 @@ export class EventController {
           status_id: StatusSchedule.id,
           categori_id: categoriEvent.id,
           feedback: req.body.feedback,
-          point: req.body.point,
         },
       });
       return res.status(201).send({

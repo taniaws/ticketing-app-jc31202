@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import axios from '@/helper/axiosInstance';
 import { toast } from "react-toastify";
-import { UserContext } from "@/context/UserContext";
+import { LoginContext, UserContext } from "@/context/UserContext";
 import Link from 'next/link';
 
 interface ILoginProps {
@@ -17,6 +17,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
   const { user, setUser } = React.useContext(UserContext);
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(LoginContext);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible)
@@ -24,26 +25,29 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
 
   const onSubmit = async (): Promise<void> => {
     try {
+      console.log("EMAILL::", emailRef.current?.value)
       const { data } = await axios.post("/api/auth/login", {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       });
 
-      console.log("email::", emailRef.current?.value)
+      console.log("DATA AFTER LOGIN::", data)
 
-      toast(`Welcome ${data.result.name}`);
-      localStorage.setItem("auth", JSON.stringify(data.result.token));
+      toast(`Welcome ${data.result.email}`);
+      localStorage.setItem("auth", data.result.token);
+      setIsLoggedIn(true);
       setUser({
         name: data.result.name,
         email: data.result.email,
         notelp: data.result.noTelp,
-        role_id: data.result.role_id,
-        password: data.result.password
+        role: data.result.role,
+        password: data.result.password,
+        referral_code: data.result.referral_code,
     });
       router.push("/");
     } catch (error: any) {
       console.log(error);
-      //toast(error.response.data.error.message);
+      toast(error.response.data.error.message);
     }
   };
 
@@ -55,7 +59,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
         setIsAuthenticated(true);
       }, 1500)
 
-  }, [user, isAuthenticated])
+  }, [user, isAuthenticated, isLoggedIn])
 
   if (!isAuthenticated) {
     return <p className='text-center text-5xl my-8'>LOADING...</p>
@@ -93,7 +97,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
           </div>
           <div className='flex pt-10 w-full justify-between'>
             <button className='bg-orange-500 text-white font-semibold p-4 rounded-md flex-1' type='button' onClick={onSubmit}>
-              Create Account
+              Log in
             </button>
           </div>
         </form>
