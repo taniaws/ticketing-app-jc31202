@@ -41,43 +41,45 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
             className="pl-3"
           />
           <h1 className="text-xl font-semibold pl-2">Bad Event Surabaya</h1>
-          </div>
-          <div className='flex-1'>
-          <NavigationMenu className="list-none flex gap-7 font-semibold">
-            <NavigationMenuItem>
-              <Link href="/">Home</Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/event">Event</Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/blog">Blog</Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/biaya">Biaya</Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/contact">Contact</Link>
-            </NavigationMenuItem>
-          </NavigationMenu>
         </div>
-        <div className="flex justify-end gap-5 font-semibold pr-3 flex-1">
-          <NavigationMenu className="list-none flex gap-5">
-            {isLoggedIn? (
+        {isLoggedIn && (
+          <div className='flex-1'>
+            <NavigationMenu className="list-none flex gap-7 font-semibold">
               <NavigationMenuItem>
-                <button onClick={handleLogout}>Logout</button>
+                <Link href="/">Home</Link>
               </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/event">Event</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/blog">Blog</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/biaya">Biaya</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/contact">Contact</Link>
+              </NavigationMenuItem>
+            </NavigationMenu>
+          </div>
+        )}
+        <div className="flex justify-end gap-5 font-semibold pr-3 flex-1">
+            {isLoggedIn? (
+              <NavigationMenu className="list-none flex gap-5">
+                <NavigationMenuItem>
+                  <button onClick={handleLogout}>Logout</button>
+                </NavigationMenuItem>
+              </NavigationMenu>
             ) : (
-              <div className="list-none flex gap-5">
+              <NavigationMenu className="list-none flex gap-5">
                 <NavigationMenuItem>
                   <Link href="/register">Register</Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/login">Login</Link>
                 </NavigationMenuItem>
-              </div>
+              </NavigationMenu>
             )}
-          </NavigationMenu>
         </div>
       </div>
     </div>

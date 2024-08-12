@@ -115,7 +115,7 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
             >
             <option value="" disabled hidden>Select your role</option>
             <option value="CUSTOMER">CUSTOMER</option>
-            <option value="ADMIN">Admin</option>
+            <option value="ADMIN">ADMIN</option>
             </select>
           </div>
           <div className="flex flex-col relative pb-5">
