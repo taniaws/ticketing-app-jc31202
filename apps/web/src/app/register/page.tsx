@@ -38,7 +38,7 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
         const userData = {
           name: nameRef.current?.value,
           notelp: phoneRef.current?.value,
-          role_id: roleRef.current?.value,
+          role: roleRef.current?.value,
           email: emailRef.current?.value,
           password: passwordRef.current?.value,
         };
@@ -114,8 +114,8 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
                 onChange={handleRoleChange}
             >
             <option value="" disabled hidden>Select your role</option>
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
+            <option value="CUSTOMER">CUSTOMER</option>
+            <option value="ADMIN">Admin</option>
             </select>
           </div>
           <div className="flex flex-col relative pb-5">

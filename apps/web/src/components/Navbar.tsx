@@ -3,10 +3,32 @@ import { NavigationMenu,NavigationMenuItem } from '@radix-ui/react-navigation-me
 import Link from 'next/link';
 import * as React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { LoginContext } from "@/context/UserContext";
+
 interface INavbarProps {
 }
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(LoginContext);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth');
+    setIsLoggedIn(false);
+    router.replace('/login');
+    window.location.reload();
+  };
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('auth');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [setIsLoggedIn]);
+
   return (
     <div className="mx-auto p-4 shadow-md sticky">
       <div className="flex justify-between items-center">
@@ -41,12 +63,20 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
         </div>
         <div className="flex justify-end gap-5 font-semibold pr-3 flex-1">
           <NavigationMenu className="list-none flex gap-5">
-            <NavigationMenuItem>
-              <Link href="/register">Register</Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/login">Login</Link>
-            </NavigationMenuItem>
+            {isLoggedIn? (
+              <NavigationMenuItem>
+                <button onClick={handleLogout}>Logout</button>
+              </NavigationMenuItem>
+            ) : (
+              <div className="list-none flex gap-5">
+                <NavigationMenuItem>
+                  <Link href="/register">Register</Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/login">Login</Link>
+                </NavigationMenuItem>
+              </div>
+            )}
           </NavigationMenu>
         </div>
       </div>

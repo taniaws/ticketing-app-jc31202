@@ -3,6 +3,7 @@ import prisma from "../prisma";
 import { hashPassword } from "../utils/hash";
 import { compareSync } from "bcrypt";
 import { createToken } from "../utils/jwt";
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface IUser {
@@ -28,12 +29,15 @@ export class AuthController {
               });
           }
 
+          const newReferralCode = uuidv4();
+
           const user = await prisma.user.create({
               data: {
                   name: req.body.name,
                   email: req.body.email,
                   notelp: req.body.notelp,
-                  role_id: req.body.role_id,
+                  role: req.body.role,
+                  referral_code: newReferralCode,
                   password:  await hashPassword(req.body.password),
               },
           });
@@ -41,7 +45,8 @@ export class AuthController {
 
           return res.status(201).send({
               success: true,
-              message: "Your account is created"
+              message: "Your account is created",
+              referralcode: newReferralCode
           })
         } catch (error) {
             console.log(error);
@@ -92,7 +97,11 @@ export class AuthController {
                 return res.status(200).send({
                     success: true,
                     result: {
+                        name: findUser.name,
                         email: findUser.email,
+                        password: findUser.password,
+                        referral_code: findUser.referral_code,
+                        role: findUser.role,
                         notelp: findUser.notelp,
                         token: createToken(
                             { id: findUser.id, email: findUser.email },
@@ -126,8 +135,11 @@ export class AuthController {
                 return res.status(200).send({
                   success: true,
                   result: {
+                    name: findUser?.name,
                     email: findUser?.email,
                     notelp: findUser?.notelp,
+                    role: findUser?.role,
+                    referral_code: findUser?.referral_code,
                     token: createToken(
                       { id: findUser.id, email: findUser.email },
                       "24h"
@@ -141,5 +153,6 @@ export class AuthController {
             next(error);
         }
     }
+    
 };
 
