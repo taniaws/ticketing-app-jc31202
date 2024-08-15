@@ -8,11 +8,9 @@ import { LoginContext } from "@/context/UserContext";
 
 interface INavbarProps {
 }
-
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
   const { isLoggedIn, setIsLoggedIn } = React.useContext(LoginContext);
   const router = useRouter();
-
   const handleLogout = () => {
     localStorage.removeItem('auth');
     setIsLoggedIn(false);

@@ -118,3 +118,9 @@ enum TYPE {
   FREE
   PAID
 }
+
+enum STATUS{
+  UPCOMING
+  ONGOING
+  COMPLETED
+ }

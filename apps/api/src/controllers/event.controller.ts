@@ -76,14 +76,18 @@ export class EventController {
         where:{id:Number(id)},
         select:{
           nama_event: req.body.nama_event,
-          tanggal_event:req.body,
-          location_id:req.body,
+          tanggal_event:new Date(req.body.tanggal_event).toISOString(),
           type: req.body.type,
           status:req.body.status,
           deskripsi_event: req.body.deskripsi_event,
-          categori_id:req.body,
           feedback: req.body.feedback,
           point: req.body.point,
+          location:{
+            location_name:true
+          },
+          categori:{
+              categoriname:true
+          }
         }
       })
       return res.status(200).send({

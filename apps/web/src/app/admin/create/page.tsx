@@ -1,21 +1,10 @@
  "use client"
-import { useState } from 'react';
-import * as React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 interface ICreateEventPageProps {
 }
 
-const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = (props) => {
- const [titleevent,setTitleEvent]= React.useState("");
- const [description,setDescription]=React.useState("");
- const [location,setLocation]=React.useState("");
- const [type,setType]=React.useState("");
- const [status,setStatus]=React.useState("");
- const [stardate,setStardate]=React.useState("");
- const [enddate,setEnddate]=React.useState("");
- 
- 
+const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = (props) => { 
  return <div>
     <div>
         <input type="text" placeholder='title event' />

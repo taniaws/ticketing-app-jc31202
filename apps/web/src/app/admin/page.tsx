@@ -1,25 +1,20 @@
 "use client"
 import { NavigationMenu,Link } from '@radix-ui/react-navigation-menu';
-import { useRouter } from 'next/navigation';
-import * as React from 'react';
-
 interface IAdmindashboardProps {
 }
 
 const Admindashboard: React.FunctionComponent<IAdmindashboardProps> = (props) => {
-  const router = useRouter();
-  router.push("/create")
   return <div>
     <div>
-        <div>
+        <div className='font-semibold flex gap-5 justify-center pt-3'>
             <NavigationMenu>
-            <Link href="">Profile Admin</Link>
+            <Link href="/profile">Profile Admin</Link>
             </NavigationMenu>
             <NavigationMenu>
             <Link href="/create">Create Event</Link>
             </NavigationMenu>
             <NavigationMenu>
-            <Link href="">My Event</Link>
+            <Link href="/myevent">My Event</Link>
             </NavigationMenu>
         </div>
     </div>
