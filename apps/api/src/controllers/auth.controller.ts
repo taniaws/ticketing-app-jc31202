@@ -4,13 +4,11 @@ import { hashPassword } from "../utils/hash";
 import { compareSync } from "bcrypt";
 import { createToken } from "../utils/jwt";
 
-
 interface IUser {
     email: string;
     notelp?: string;
     password: string;
 }
-
 export class AuthController {
     //Register
     async regis(req: Request, res: Response, next: NextFunction) {
@@ -25,7 +23,6 @@ export class AuthController {
                 },
             });
             console.log("User:", user);
-
             return res.status(201).send({
                 success: true,
                 message: "Your account is created"
@@ -39,14 +36,12 @@ export class AuthController {
             })
         }
     }
-
     //Sign In (Comparing password by bcrypt)
     async login(req: Request, res: Response, next: NextFunction) {
         try {
             const findUser = await prisma.user.findUnique({
                 where: { email: req.body.email },
             })
-
             console.log("FIND USER LOGIN:", findUser);
             if (findUser) {
                 const comparePass = compareSync(req.body.password, findUser.password);
@@ -75,7 +70,6 @@ export class AuthController {
                       };
                     }
                 }
-
                 return res.status(200).send({
                     success: true,
                     result: {
@@ -93,13 +87,10 @@ export class AuthController {
                     message: "Account doesn't exist",
                 }
             }
-
         } catch (error: any) {
             next(error)
-            };
-            
+            };       
     }
-
     //Keep Login (with token)
     async keepLogin(req: Request, res: Response, next: NextFunction) {
         try {
@@ -108,7 +99,6 @@ export class AuthController {
                     id: res.locals.decript.id,
                 },
             });
-
             if (findUser) {
                 return res.status(200).send({
                   success: true,
