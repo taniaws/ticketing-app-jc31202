@@ -22,7 +22,6 @@ model detail_transaction {
 model discount {
   id                 Int                  @id @unique(map: "id") @default(autoincrement())
   title              String               @db.VarChar(255)
-  referral_code      String               @db.VarChar(255)
   description        String               @db.VarChar(255)
   tanggal            DateTime             @db.Date
   price              Int
@@ -42,7 +41,6 @@ model event {
   location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
   categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
   feedback           feedback[]
-  point              point[]
 
   @@index([location_id], map: "Event_fk3")
   @@index([categori_id], map: "Event_fk7_idx")
@@ -69,20 +67,11 @@ model location {
 model point {
   id         Int      @id @unique(map: "id") @default(autoincrement())
   user_id    Int
-  event_id   Int
   amount     Int
   datecreate DateTime @db.Date
   user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk1")
-  event      event    @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk2")
 
   @@index([user_id], map: "Point_fk1")
-  @@index([event_id], map: "Point_fk2")
-}
-
-model role {
-  id        Int    @id @unique(map: "id") @default(autoincrement())
-  role_name ROLE
-  user      user[]
 }
 
 model transaction {
@@ -104,16 +93,14 @@ model user {
   name               String        @db.VarChar(255)
   email              String        @unique @db.VarChar(255)
   notelp             String        @db.VarChar(255)
-  role_id            Int
   isBlocked          Boolean       @default(false)
   limitWrongPassword Int           @default(0)
   password           String        @db.VarChar(350)
+  referral_code      String        @unique
+  role               ROLE          @default(CUSTOMER)
   feedback           feedback[]
   point              point[]
   transaction        transaction[]
-  role               role          @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "User_fk5")
-
-  @@index([role_id], map: "User_fk5")
 }
 
 model categori {
@@ -130,10 +117,4 @@ enum ROLE {
 enum TYPE {
   FREE
   PAID
-}
-
-enum STATUS {
-  UPCOMING
-  ONGOING
-  COMPLETED
 }

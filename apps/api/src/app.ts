@@ -11,8 +11,11 @@ import express, {
 import cors from 'cors';
 import { EventRouter } from './routers/event.router';
 import { AuthRouter } from './routers/auth.router';
+import { PointsRouter } from './routers/points.router';
 
-const PORT = process.env.PORT;
+const PORT = process.env.port;
+console.log("port::", PORT);
+
 
 export default class App {
   private app: Express;
@@ -55,10 +58,13 @@ export default class App {
 
   private routes(): void {
     const eventRouter = new EventRouter();
-
     this.app.use('/api/event', eventRouter.getRoute());
+
     const authRouter = new AuthRouter();
     this.app.use('/api/auth', authRouter.getRoute());
+    
+    const pointsRouter = new PointsRouter();
+    this.app.use('/api/points', pointsRouter.getRoute());
   }
 
   public start(): void {

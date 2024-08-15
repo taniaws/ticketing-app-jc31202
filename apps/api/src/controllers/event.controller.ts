@@ -14,7 +14,6 @@ export class EventController {
           deskripsi_event: req.body.deskripsi_event,
           categori_id:req.body.categori_id,
           feedback: req.body.feedback,
-          point: req.body.point,
         },
       });
       return res.status(201).send({
