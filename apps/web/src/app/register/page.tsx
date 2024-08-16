@@ -5,22 +5,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { toast } from "react-toastify";
+import * as yup from 'yup';
+import { Formik, FormikProps, Form, Field, ErrorMessage } from 'formik';
+
 
 interface IRegisterPageProps {}
 
 const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
   const router = useRouter();
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const nameRef = React.useRef<HTMLInputElement>(null);
-  const phoneRef = React.useRef<HTMLInputElement>(null);
-  const roleRef = React.useRef<HTMLSelectElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
-  const confirmPasswordRef = React.useRef<HTMLInputElement>(null);
   const { user } = React.useContext(UserContext);
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
   const [selectedRole, setSelectedRole] = React.useState<string>("");
-
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
   const toggleVisibility = () => {
@@ -30,30 +25,56 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRole(e.target.value);
   };
-  
-  const onSubmit = async (e: React.FormEvent): Promise<void> => {
-    try {
-      console.log("EMAILREF::", emailRef)
-      if (passwordRef.current?.value === confirmPasswordRef.current?.value) {
-        const userData = {
-          name: nameRef.current?.value,
-          notelp: phoneRef.current?.value,
-          role: roleRef.current?.value,
-          email: emailRef.current?.value,
-          password: passwordRef.current?.value,
-        };
-        console.log("Submitted Data:", userData);
 
-        const regis = await axios.post("/api/auth/regis", userData);
-        toast(regis.data.message);
-        router.push("/");
-      } else {
-        console.log("Password do not match")
-        toast("Passwords do not match");
-      }
+  const LoginSchema = yup.object().shape({
+    email: yup.string().email("Invalid Email Address").required("Email is required"),
+    name: yup.string().required("Full Name is required"),
+    notelp: yup.string().required("Phone Number is required"),
+    role: yup.string().required("Role is required"),
+    password: yup.string().min(7, "Password must be at least 7 characters").required("Password is required"),
+    confirmPassword: yup.string()
+      .oneOf([yup.ref('password'), undefined], 'Passwords must match')
+      .required('Confirm Password is required'),
+  });
+
+  
+  const onSubmit = async (values: any): Promise<void> => {
+    try {
+      const userData = {
+        name: values.name,
+        notelp: values.notelp,
+        role: values.role,
+        email: values.email,
+        referralCode: values.referralCode,
+        password: values.password,
+      };
+      console.log("Submitted Data:", userData);
+
+      const regis = await axios.post("/api/auth/regis", userData);
+      console.log("Registration API Response Data:", regis.data);
+
+      if (values.referralCode) {
+        const referralData = {
+            referralCode: values.referralCode,
+        };
+        const redeemReferral = await axios.post("/api/points/redeemReferralCode", referralData);
+        
+        const discountData = {
+          title: "Referral Discount",
+          description: "10% discount for registering with a referral code.",
+          percent: 10,
+          code: "REFERRAL10",
+          user_id: regis.data.user_id,
+        };
+        console.log("DISCOUNT DATA USER ID AND REFERRAL CODE::", discountData);
+        
+        const createDiscount = await axios.post("/api/discount/createDiscount", discountData);
+        console.log("DISCOUNT CREATED::", createDiscount);
+      };
+
+      router.push("/");
     } catch (error: any) {
       console.log(error);
-      //toast(error.response.data.error.message);
     }
   };
 
@@ -79,77 +100,109 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
             <h1 className='font-bold text-4xl text-center pr-10'> Create an account </h1>
             <Link href="/login" className="text-blue-500 font-semibold text-lg"> Log in </Link>
         </div>
-        <form className='flex flex-col'>
-          <div className="flex flex-col relative pb-5">
-            <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Email Address</label>
-            <input
-                type="text"
-                className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
-                ref={emailRef}
-            />
-          </div>
-          <div className="flex flex-col relative pb-5">
-            <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Full Name</label>
-            <input
-                type="text"
-                className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
-                ref={nameRef}
-            />
-          </div>
-          <div className="flex flex-col relative pb-5">
-            <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Phone Number</label>
-            <input
-                type="text"
-                className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
-                ref={phoneRef}
-            />
-          </div>
-          <div className="flex flex-col relative pb-5">
-            <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Role</label>
-            <select
-                className={`px-6 pt-10 pb-5 rounded-md border border-slate-300 appearance-none ${selectedRole === "" ? "text-slate-500" : "text-black"}`}
-                ref={roleRef}
-                defaultValue=""
-                value={selectedRole}
-                onChange={handleRoleChange}
-            >
-            <option value="" disabled hidden>Select your role</option>
-            <option value="CUSTOMER">CUSTOMER</option>
-            <option value="ADMIN">ADMIN</option>
-            </select>
-          </div>
-          <div className="flex flex-col relative pb-5">
-            <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Password</label>                    
-            <div className='flex items-center'>
-                <input
+        <Formik
+          initialValues={{
+            email: '',
+            name: '',
+            notelp: '',
+            role: '',
+            referralCode: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          validationSchema={LoginSchema}
+          onSubmit={onSubmit}
+        >
+          {({ handleSubmit, setFieldValue }) => (
+            <Form className='flex flex-col' onSubmit={handleSubmit}>
+              <div className="flex flex-col relative pb-5">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Email Address</label>
+                <Field
+                  type="text"
+                  name="email"
+                  className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
+                />
+                <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex flex-col relative pb-5">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Full Name</label>
+                <Field
+                  type="text"
+                  name="name"
+                  className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
+                />
+                <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex flex-col relative pb-5">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Phone Number</label>
+                <Field
+                  type="text"
+                  name="notelp"
+                  className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
+                />
+                <ErrorMessage name="notelp" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex flex-col relative pb-5">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Role</label>
+                <Field
+                  as="select"
+                  name="role"
+                  className={`px-6 pt-10 pb-5 rounded-md border border-slate-300 appearance-none ${selectedRole === "" ? "text-slate-500" : "text-black"}`}
+                  onChange={(e: any) => {
+                    setSelectedRole(e.target.value);
+                    setFieldValue("role", e.target.value);
+                  }}
+                >
+                  <option value="" disabled hidden>Select your role</option>
+                  <option value="CUSTOMER">CUSTOMER</option>
+                  <option value="ADMIN">ADMIN</option>
+                </Field>
+                <ErrorMessage name="role" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex flex-col relative pb-5">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Referral Code (Optional)</label>
+                <Field
+                  type="text"
+                  name="referralCode"
+                  className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
+                />
+              </div>
+              <div className="flex flex-col relative pb-5">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Password</label>
+                <div className='flex items-center'>
+                  <Field
                     type={isVisible ? "text" : "password"}
+                    name="password"
                     className="px-6 pt-10 pb-5 rounded-md font-medium border border-slate-300 w-full"
-                    ref={passwordRef}
-                    />
-                <span onClick={toggleVisibility} className='absolute right-3 align-middle'>
-                {isVisible ? (<MdVisibility />) : (<MdVisibilityOff />)}
-                </span>
-            </div>
-          </div>
-          <div className="flex flex-col relative">
-            <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Confirm Password</label>                    
-            <div className='flex items-center'>
-                <input
+                  />
+                  <span onClick={toggleVisibility} className='absolute right-3 align-middle'>
+                    {isVisible ? (<MdVisibility />) : (<MdVisibilityOff />)}
+                  </span>
+                </div>
+                <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className="flex flex-col relative">
+                <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Confirm Password</label>
+                <div className='flex items-center'>
+                  <Field
                     type={isVisible ? "text" : "password"}
+                    name="confirmPassword"
                     className="px-6 pt-10 pb-5 rounded-md font-medium border border-slate-300 w-full"
-                    ref={confirmPasswordRef}
-                    />
-                <span onClick={toggleVisibility} className='absolute right-3 align-middle'>
-                {isVisible ? (<MdVisibility />) : (<MdVisibilityOff />)}
-                </span>
-            </div>
-          </div>
-          <div className='flex pt-10 w-full justify-between'>
-            <button className='bg-orange-500 text-white font-semibold p-4 rounded-md flex-1' type='button' onClick={onSubmit}>
-              Create Account
-            </button>
-          </div>
-        </form>
+                  />
+                  <span onClick={toggleVisibility} className='absolute right-3 align-middle'>
+                    {isVisible ? (<MdVisibility />) : (<MdVisibilityOff />)}
+                  </span>
+                </div>
+                <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm" />
+              </div>
+              <div className='flex pt-10 w-full justify-between'>
+                <button className='bg-orange-500 text-white font-semibold p-4 rounded-md flex-1' type='submit'>
+                  Create Account
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

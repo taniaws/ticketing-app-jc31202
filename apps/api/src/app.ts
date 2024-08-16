@@ -12,6 +12,7 @@ import cors from 'cors';
 import { EventRouter } from './routers/event.router';
 import { AuthRouter } from './routers/auth.router';
 import { PointsRouter } from './routers/points.router';
+import { DiscountRouter } from './routers/discount.router';
 
 const PORT = process.env.port;
 console.log("port::", PORT);
@@ -65,6 +66,9 @@ export default class App {
     
     const pointsRouter = new PointsRouter();
     this.app.use('/api/points', pointsRouter.getRoute());
+  
+    const discountRouter = new DiscountRouter();
+    this.app.use('/api/discount', discountRouter.getRoute());
   }
 
   public start(): void {

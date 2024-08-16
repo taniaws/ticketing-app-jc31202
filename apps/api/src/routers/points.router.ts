@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { PointsController } from '../controllers/points.controller';
-import { verifyToken } from '../middleware/verifyToken';
 
 export class PointsRouter {
   private route: Router;
@@ -14,6 +13,8 @@ export class PointsRouter {
 
   private initializeRoutes(): void {
     this.route.post("/redeemreferralcode", this.pointsController.redeemReferralCode);
+    this.route.get("/getpoints/:userId", this.pointsController.getValidPoints);
+    this.route.patch("/deletepoints", this.pointsController.markExpiredPointsAsDeleted);
   }
 
   getRoute(): Router {
