@@ -46,6 +46,7 @@ export class AuthController {
           return res.status(201).send({
               success: true,
               message: "Your account is created",
+              user_id: user.id,
               referralcode: newReferralCode
           })
         } catch (error) {

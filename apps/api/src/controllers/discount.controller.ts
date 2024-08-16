@@ -1,65 +1,63 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
 
-interface IPoints {
-    user_id: number;
-    amount?: number;
+interface IDiscount {
+    id: number;
+    title: string;
+    description: string;
     datecreate: Date;
     dateexpire: Date;
-}
+    isdeleted?: boolean;
+    percent: number;
+    code: string;
+    user_id: number;
+  }
+  
 
-export class PointsController {
+export class DiscountController {
 
-    //Redeem Referral Code for Points
-    async redeemReferralCode(req: Request, res: Response, next: NextFunction) {
-        // front end --> masukkin referralCode
-        const { referralCode } = req.body;
-        
+    async createDiscount(req: Request, res: Response, next: NextFunction) {
         try {
-          const referrer = await prisma.user.findUnique({
-              where: { referral_code: referralCode }
-          });
+            const { title, description, percent, code, user_id } = req.body;
 
-          if (!referrer) {
-              return res.status(404).send({
-                  success: false,
-                  message: "Invalid referral code"
-              });
-          }
+            const expirationDate = new Date();
+            expirationDate.setMonth(expirationDate.getMonth() + 3)
 
-          const expirationDate = new Date();
-          expirationDate.setMonth(expirationDate.getMonth() + 3)
-
-          await prisma.point.create({
+            const discount = await prisma.discount.create({
             data: {
-                user_id: referrer.id,
-                amount: 10000,
+                title,
+                description,
                 datecreate: new Date(),
                 dateexpire: expirationDate,
-            }
-        });
+                isdeleted: false,
+                percent,
+                code,
+                user_id,
+            },
+            });
 
           return res.status(201).send({
               success: true,
-              message: "Referral code redeemed successfully"
+              message: "Discount code created successfully",
+              discount: discount
           })
         } catch (error) {
             console.log(error);
             next({
                 success: false,
-                message: "Failed to redeem referral code",
+                message: "Failed to create discount code",
                 error: error
             })
         }
     };
 
-    // Get Valid Points for a User
-    async getValidPoints(req: Request, res: Response, next: NextFunction) {
+    // Get Valid Discount for a User
+    async getValidDiscount(req: Request, res: Response, next: NextFunction) {
         const { userId } = req.params; // front end --> hubungkan ke userId
 
         try {
             const now = new Date();
-            const points = await prisma.point.findMany({
+            const points = await prisma.discount.findMany({
                 where: {
                     user_id: Number(userId),
                     dateexpire: {
@@ -78,18 +76,18 @@ export class PointsController {
             console.log(error);
             next({
                 success: false,
-                message: "Failed to get points",
+                message: "Failed to get discounts",
                 error: error
             });
         }
     }
 
-    // Soft Delete expired points
-    async markExpiredPointsAsDeleted(req: Request, res: Response, next: NextFunction) {
+    // Soft Delete expired discount
+    async markExpiredDiscountAsDeleted(req: Request, res: Response, next: NextFunction) {
         const now = new Date();
     
         try {
-            const result = await prisma.point.updateMany({
+            const result = await prisma.discount.updateMany({
                 where: {
                     dateexpire: {
                         lt: now, //lt --> less than <
@@ -106,9 +104,8 @@ export class PointsController {
                 data_deleted: result.count
             });
         } catch (error) {
-            console.log("Failed to mark expired points as deleted:", error);
+            console.log("Failed to mark expired discounts as deleted:", error);
         }
     }
 
 };
-

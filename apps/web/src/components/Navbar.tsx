@@ -30,7 +30,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
   }, [setIsLoggedIn]);
 
   return (
-    <div className="mx-auto p-4 shadow-md sticky">
+    <div className="fixed top-0 left-0 w-full bg-white z-50 p-4 shadow-md">
       <div className="flex justify-between items-center">
         <div className="flex items-center flex-1">
           <Image 
