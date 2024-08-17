@@ -40,17 +40,19 @@ model event {
   nama_event         String               @db.VarChar(255)
   tanggal_event      DateTime             @db.Date
   location_id        Int
-  type               TYPE
   deskripsi_event    String               @db.VarChar(255)
   categori_id        Int
-  status             STATUS
+  status_id          Int
+  type_id            Int
   detail_transaction detail_transaction[]
   location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
+  type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
   categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
   feedback           feedback[]
 
   @@index([location_id], map: "Event_fk3")
   @@index([categori_id], map: "Event_fk7_idx")
+  @@index([type_id], map: "Event_fk5")
 }
 
 model feedback {
@@ -96,7 +98,6 @@ model transaction {
   @@index([detail_transaction_id], map: "Transaction_fk4")
 }
 
-
 model user {
   id                 Int           @id @unique(map: "id") @default(autoincrement())
   name               String        @db.VarChar(255)
@@ -119,18 +120,23 @@ model categori {
   event        event[]
 }
 
+model status {
+  id         Int     @id @default(autoincrement())
+  Statusname String? @db.VarChar(45)
+}
+
+model type {
+  id        Int            @id @unique(map: "id") @default(autoincrement())
+  type_name type_type_name
+  event     event[]
+}
+
 enum ROLE {
   CUSTOMER
   ADMIN
 }
 
-enum TYPE {
+enum type_type_name {
   FREE
   PAID
 }
-
-enum STATUS{
-  UPCOMING
-  ONGOING
-  COMPLETED
- }
