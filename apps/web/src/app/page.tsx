@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import styles from './page.module.css';
-// import { withAuth } from '@/hoc/authGuard';
+import { withAuth } from '@/hoc/authGuard';
 
 function Home() {
   return (
@@ -12,4 +12,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withAuth(Home);

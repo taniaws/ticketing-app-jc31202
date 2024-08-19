@@ -21,8 +21,6 @@ export class DashboardController {
                 include: {
                     location: true,
                     categori: true,
-                    type: true,
-                    status: true,
                 },
             });
 
@@ -41,6 +39,6 @@ export class DashboardController {
         }
     };
 
-    //
+    //get attendee registration
 
 };

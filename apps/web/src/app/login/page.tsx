@@ -39,15 +39,15 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       setUser({
         name: data.result.name,
         email: data.result.email,
-        notelp: data.result.noTelp,
+        noTelp: data.result.noTelp,
         role: data.result.role,
         password: data.result.password,
         referral_code: data.result.referral_code,
     });
-      if (user?.role === "CUSTOMER") {
-        router.push("/");
+      if (user?.role === "ADMIN") {
+        router.push("/admin/myevent");
       } else {
-        router.push("/admin/myevent")
+        router.push("/")
       }
     } catch (error: any) {
       console.log(error);
@@ -56,16 +56,16 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
   };
 
   React.useEffect(() => {
-    if (user?.email && user?.role === "CUSTOMER") {
-      router.replace("/");
-    }
-
-    if (user?.email && user?.role === "ADMIN") {
-      router.replace("/admin/myevent");
-    }
-
       setTimeout(() => {
         setIsAuthenticated(true);
+
+        if (user?.email && user?.role === "ADMIN") {
+          router.replace("/admin/myevent");
+        };
+
+        if (user?.email && user?.role === "CUSTOMER") {
+          router.replace("/");
+        };
       }, 1500)
 
   }, [user, isAuthenticated, isLoggedIn])

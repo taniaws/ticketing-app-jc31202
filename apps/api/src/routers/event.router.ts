@@ -17,6 +17,7 @@ export class EventRouter {
     this.route.patch('/update/:id', this.eventController.updateEvent);
     this.route.delete('/delete/:id', this.eventController.DeleteEvent);
     this.route.get('/get/:id', this.eventController.GetEvent);
+    this.route.get('/getAllEvent', this.eventController.GetAllEvent);
   }
 
   getRoute(): Router {

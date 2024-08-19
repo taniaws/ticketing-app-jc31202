@@ -8,11 +8,12 @@ export type LanguageContextType = {
   export type UserType = {
     name: string;
     email: string;
-    notelp?: string;
+    noTelp?: string;
     role: ROLE;
     password: string;
-    referral_code: string;
-  };
+    referral_code?: string;
+    point?: PointType[];
+    };
   
   export interface UserContextType {
     user: UserType | null;
@@ -23,3 +24,11 @@ export type LanguageContextType = {
     isLoggedIn: boolean;
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   }
+
+  export type PointType = {
+    amount: number;
+    dateCreate: Date;
+    dateExpire: Date;
+    isDeleted: boolean;
+  };
+  
