@@ -11,6 +11,7 @@ import cors from 'cors';
 import { EventRouter } from './routers/event.router';
 import { AuthRouter } from './routers/auth.router';
 import { PointsRouter } from './routers/points.router';
+import { DiscountRouter } from './routers/discount.router';
 import path from 'path';
 
 const PORT = process.env.port;

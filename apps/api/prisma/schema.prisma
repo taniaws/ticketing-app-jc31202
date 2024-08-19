@@ -7,130 +7,132 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model detail_transaction {
-  id          Int           @id @unique(map: "id") @default(autoincrement())
-  event_id    Int
-  discount_id Int
-  event       event         @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk1")
-  discount    discount      @relation(fields: [discount_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk2")
-  transaction transaction[]
-
-  @@index([event_id], map: "Detail_Transaction_fk1")
-  @@index([discount_id], map: "Detail_Transaction_fk2")
-}
-
-model discount {
-  id                 Int                  @id @unique(map: "id") @default(autoincrement())
-  title              String               @db.VarChar(255)
-  description        String               @db.VarChar(255)
-  datecreate         DateTime             @db.Date
-  dateexpire         DateTime             @db.Date
-  isdeleted          Boolean              @default(false)
-  percent            Int
-  code               String               @unique
-  user_id            Int
-  detail_transaction detail_transaction[]
-  user               user                 @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Discount_fk1")
-
-  @@index([user_id], map: "Discount_fk1")
-}
-
-model event {
-  id                 Int                  @id @unique(map: "id") @default(autoincrement())
-  user_id            Int
-  nama_event         String               @db.VarChar(255)
-  tanggal_event      DateTime             @db.Date
-  location_id        Int
-  deskripsi_event    String               @db.VarChar(255)
-  categori_id        Int
-  status_id          Int
-  type_id            Int
-  detail_transaction detail_transaction[]
-  location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
-  type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
-  categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
-  feedback           feedback[]
-  imgEvent           String?
-
-  @@index([location_id], map: "Event_fk3")
-  @@index([categori_id], map: "Event_fk7_idx")
-  @@index([type_id], map: "Event_fk5")
-}
-
-model feedback {
-  id       Int    @id @unique(map: "id") @default(autoincrement())
-  event_id Int
-  user_id  Int
-  feedback String @db.VarChar(255)
-  event    event  @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Feedback_fk1")
-  user     user   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Feedback_fk2")
-
-  @@index([event_id], map: "Feedback_fk1")
-  @@index([user_id], map: "Feedback_fk2")
-}
-
-model location {
-  id            Int     @id @unique(map: "id") @default(autoincrement())
-  location_name String  @db.VarChar(255)
-  event         event[]
-}
-
-model point {
-  id         Int      @id @unique(map: "id") @default(autoincrement())
-  user_id    Int
-  amount     Int
-  datecreate DateTime @db.Date
-  dateexpire DateTime @db.Date
-  isdeleted  Boolean  @default(false)
-  user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk1")
-
-  @@index([user_id], map: "Point_fk1")
-}
-
-model transaction {
-  id                    Int                @id @unique(map: "id") @default(autoincrement())
-  user_id               Int
-  amount                Int
-  createdAt             Int
-  detail_transaction_id Int
-  user                  user               @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk1")
-  detail_transaction    detail_transaction @relation(fields: [detail_transaction_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk4")
-
-  @@index([user_id], map: "Transaction_fk1")
-  @@index([detail_transaction_id], map: "Transaction_fk4")
-}
+////////// TANIA'S MODELS ///////////
 
 model user {
   id                 Int           @id @unique(map: "id") @default(autoincrement())
   name               String        @db.VarChar(255)
   email              String        @unique @db.VarChar(255)
-  notelp             String        @db.VarChar(255)
+  noTelp             String        @db.VarChar(255)
   isBlocked          Boolean       @default(false)
   limitWrongPassword Int           @default(0)
   password           String        @db.VarChar(350)
-  referral_code      String?        @unique
+  referralCode       String?       @unique
   role               ROLE          @default(CUSTOMER)
   discount           discount[]
   feedback           feedback[]
   point              point[]
   transaction        transaction[]
+  event              event[]
+}
+
+model point {
+  id         Int      @id @unique(map: "id") @default(autoincrement())
+  userId     Int
+  amount     Int
+  dateCreate DateTime @db.Date
+  dateExpire DateTime @db.Date
+  isDeleted  Boolean  @default(false)
+  user       user     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk1")
+
+  @@index([userId], map: "Point_fk1")
+}
+
+model discount {
+  id                Int                 @id @unique(map: "id") @default(autoincrement())
+  title             String              @db.VarChar(255)
+  description       String              @db.VarChar(255)
+  dateCreate        DateTime            @db.Date
+  dateExpire        DateTime            @db.Date
+  isDeleted         Boolean             @default(false)
+  percent           Int
+  code              String              @unique
+  userId            Int
+  detailTransaction detailTransaction[]
+  user              user                @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Discount_fk1")
+
+  @@index([userId], map: "Discount_fk1")
+}
+
+model feedback {
+  id       Int    @id @unique(map: "id") @default(autoincrement())
+  eventId  Int
+  userId   Int
+  feedback String @db.VarChar(255)
+  event    event  @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Feedback_fk1")
+  user     user   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Feedback_fk2")
+
+  @@index([eventId], map: "Feedback_fk1")
+  @@index([userId], map: "Feedback_fk2")
+}
+
+model location {
+  id           Int     @id @unique(map: "id") @default(autoincrement())
+  locationName String  @db.VarChar(255)
+  event        event[]
+}
+
+//////////  BAIM'S MODELS ////////
+
+model event {
+  id                Int                 @id @unique(map: "id") @default(autoincrement())
+  userId            Int
+  namaEvent         String              @db.VarChar(255)
+  imgEvent          String
+  tanggalEvent      DateTime            @db.Date
+  locationId        Int
+  type              TYPE
+  deskripsiEvent    String              @db.VarChar(255)
+  categoriId        Int
+  status            STATUS
+  detailTransaction detailTransaction[]
+  location          location            @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
+  categori          categori            @relation(fields: [categoriId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
+  user              user                @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk1")
+  feedback          feedback[]
+  transaction       transaction[]
+
+  @@index([userId], map: "Event_fk1")
+  @@index([locationId], map: "Event_fk3")
+  @@index([categoriId], map: "Event_fk7_idx")
+}
+
+model transaction {
+  id                Int                 @id @unique(map: "id") @default(autoincrement())
+  userId            Int
+  amount            Int
+  createdAt         DateTime
+  eventId           Int
+  user              user                @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk1")
+  event             event               @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk2")
+  detailTransaction detailTransaction[]
+
+  @@index([userId], map: "Transaction_fk1")
+  @@index([eventId], map: "Transaction_fk2")
+}
+
+model detailTransaction {
+  id            Int         @id @unique(map: "id") @default(autoincrement())
+  discountId    Int
+  discount      discount    @relation(fields: [discountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk2")
+  transactionId Int
+  transaction   transaction @relation(fields: [transactionId], references: [id])
+  event         event?      @relation(fields: [eventId], references: [id])
+  eventId       Int?
+
+  @@index([discountId], map: "Detail_Transaction_fk2")
 }
 
 model categori {
   id           Int     @id @default(autoincrement())
-  categoriname String  @db.VarChar(45)
+  categoriName String  @db.VarChar(45)
   event        event[]
 }
 
-model status {
-  id         Int     @id @default(autoincrement())
-  Statusname String? @db.VarChar(45)
-}
-
-model type {
-  id        Int            @id @unique(map: "id") @default(autoincrement())
-  type_name type_type_name
-  event     event[]
+enum STATUS {
+  COMING_SOON
+  ONGOING
+  COMPLETED
 }
 
 enum ROLE {
@@ -138,7 +140,7 @@ enum ROLE {
   ADMIN
 }
 
-enum type_type_name {
+enum TYPE {
   FREE
   PAID
 }

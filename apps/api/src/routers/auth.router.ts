@@ -17,13 +17,6 @@ export class AuthRouter {
     this.route.post('/regis', this.authController.regis);
     this.route.post('/login', this.authController.login);
     this.route.get('/keepLogin', verifyToken, this.authController.keepLogin);
-
-    this.route.patch(
-      '/img-event',
-      verifyToken,
-      uploader().single('img'),
-      this.authController.uploadImgEvent,
-    );
   }
   getRoute(): Router {
     return this.route;

@@ -21,13 +21,14 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = (
   const handleSubmit = async () => {
     console.log('this is title event', titleEvent);
     const newData = {
-      nama_event: titleEvent,
-      deskripsi_event: description,
-      location_id: location,
+      namaEvent: titleEvent,
+      deskripsiEvent: description,
+      locationId: location,
       type,
       status,
-      tanggal_event: tanggalEvent,
-      categori_id: categorievent,
+      tanggalEvent: tanggalEvent,
+      categoriId: categorievent,
+      imgEvent: `/assets/event/${req.file?.filename} `,
     };
     try {
       console.log('data event', newData);

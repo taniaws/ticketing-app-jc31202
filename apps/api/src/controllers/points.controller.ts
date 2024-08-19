@@ -16,7 +16,7 @@ export class PointsController {
 
     try {
       const referrer = await prisma.user.findUnique({
-        where: { referral_code: referralCode },
+        where: { referralCode: referralCode },
       });
 
       if (!referrer) {
@@ -28,13 +28,12 @@ export class PointsController {
 
       const expirationDate = new Date();
       expirationDate.setMonth(expirationDate.getMonth() + 3);
-
       await prisma.point.create({
         data: {
-          user_id: referrer.id,
+          userId: referrer.id,
           amount: 10000,
-          datecreate: new Date(),
-          dateexpire: expirationDate,
+          dateCreate: new Date(),
+          dateExpire: expirationDate,
         },
       });
 
@@ -51,21 +50,19 @@ export class PointsController {
       });
     }
   }
-
   // Get Valid Points for a User
   async getValidPoints(req: Request, res: Response, next: NextFunction) {
     const { userId } = req.params; // front end --> hubungkan ke userId
-
     try {
       const now = new Date();
       const points = await prisma.point.findMany({
         where: {
-          user_id: Number(userId),
-          dateexpire: {
+          userId: Number(userId),
+          dateExpire: {
             //gte --> greater than / equal to >=
             gte: now,
           },
-          isdeleted: false,
+          isDeleted: false,
         },
       });
 
@@ -90,17 +87,16 @@ export class PointsController {
     next: NextFunction,
   ) {
     const now = new Date();
-
     try {
       const result = await prisma.point.updateMany({
         where: {
-          dateexpire: {
+          dateExpire: {
             lt: now, //lt --> less than <
           },
-          isdeleted: false,
+          isDeleted: false,
         },
         data: {
-          isdeleted: true,
+          isDeleted: true,
         },
       });
 
