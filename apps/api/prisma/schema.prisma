@@ -116,11 +116,13 @@ model detailTransaction {
   discountId    Int
   discount      discount    @relation(fields: [discountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk2")
   transactionId Int
-  transaction   transaction @relation(fields: [transactionId], references: [id])
-  event         event?      @relation(fields: [eventId], references: [id])
+  transaction   transaction @relation(fields: [transactionId], references: [id], map: "detailTransaction_transactionId_fkey")
   eventId       Int?
+  event         event?      @relation(fields: [eventId], references: [id], map: "detailTransaction_eventId_fkey")
 
   @@index([discountId], map: "Detail_Transaction_fk2")
+  @@index([eventId], map: "detailTransaction_eventId_fkey")
+  @@index([transactionId], map: "detailTransaction_transactionId_fkey")
 }
 
 model categori {

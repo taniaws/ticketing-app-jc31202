@@ -98,7 +98,37 @@ export class EventController {
       });
     } catch (error) {
       return res.status(400).send({
-        succes: false,
+        success: false,
+        message: 'you not get all data',
+      });
+    }
+  }
+  async GetAllEvent(req: Request, res: Response, next: NextFunction) {
+    try {
+      const getEven = await prisma.event.findMany({
+        select: {
+          namaEvent: true,
+          tanggalEvent: true,
+          location: {
+            select: {
+              locationName: true,
+            },
+          },
+          userId: true,
+          type: true,
+          status: true,
+          deskripsiEvent: true,
+          categoriId: true,
+        },
+      });
+      return res.status(200).send({
+        success: true,
+        message: 'this is all data',
+        data: getEven,
+      });
+    } catch (error) {
+      return res.status(400).send({
+        success: false,
         message: 'you not get all data',
       });
     }

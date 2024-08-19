@@ -41,6 +41,7 @@
   - Added the required column `tanggalEvent` to the `event` table without a default value. This is not possible if the table is not empty.
   - Added the required column `type` to the `event` table without a default value. This is not possible if the table is not empty.
   - Added the required column `userId` to the `event` table without a default value. This is not possible if the table is not empty.
+  - Made the column `imgEvent` on table `event` required. This step will fail if there are existing NULL values in that column.
   - Added the required column `eventId` to the `feedback` table without a default value. This is not possible if the table is not empty.
   - Added the required column `userId` to the `feedback` table without a default value. This is not possible if the table is not empty.
   - Added the required column `locationName` to the `location` table without a default value. This is not possible if the table is not empty.
@@ -61,6 +62,9 @@ ALTER TABLE `detail_transaction` DROP FOREIGN KEY `Detail_Transaction_fk2`;
 
 -- DropForeignKey
 ALTER TABLE `discount` DROP FOREIGN KEY `Discount_fk1`;
+
+-- DropForeignKey
+ALTER TABLE `event` DROP FOREIGN KEY `Event_fk11`;
 
 -- DropForeignKey
 ALTER TABLE `event` DROP FOREIGN KEY `Event_fk3`;
@@ -119,7 +123,8 @@ ALTER TABLE `event` DROP COLUMN `categori_id`,
     ADD COLUMN `status` ENUM('COMING_SOON', 'ONGOING', 'COMPLETED') NOT NULL,
     ADD COLUMN `tanggalEvent` DATE NOT NULL,
     ADD COLUMN `type` ENUM('FREE', 'PAID') NOT NULL,
-    ADD COLUMN `userId` INTEGER NOT NULL;
+    ADD COLUMN `userId` INTEGER NOT NULL,
+    MODIFY `imgEvent` VARCHAR(191) NOT NULL;
 
 -- AlterTable
 ALTER TABLE `feedback` DROP COLUMN `event_id`,

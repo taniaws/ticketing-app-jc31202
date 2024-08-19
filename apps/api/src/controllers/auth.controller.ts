@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface IUser {
   email: string;
-  notelp?: string;
+  noTelp?: string;
   password: string;
 }
 
@@ -34,7 +34,7 @@ export class AuthController {
         data: {
           name: req.body.name,
           email: req.body.email,
-          noTelp: req.body.notelp,
+          noTelp: req.body.noTelp,
           role: req.body.role,
           referralCode: newReferralCode,
           password: await hashPassword(req.body.password),
@@ -102,7 +102,7 @@ export class AuthController {
             password: findUser.password,
             referral_code: findUser.referralCode,
             role: findUser.role,
-            notelp: findUser.noTelp,
+            noTelp: findUser.noTelp,
             token: createToken(
               { id: findUser.id, email: findUser.email },
               '24h',
@@ -135,7 +135,7 @@ export class AuthController {
           result: {
             name: findUser?.name,
             email: findUser?.email,
-            notelp: findUser?.noTelp,
+            noTelp: findUser?.noTelp,
             role: findUser?.role,
             referral_code: findUser?.referralCode,
             token: createToken(
