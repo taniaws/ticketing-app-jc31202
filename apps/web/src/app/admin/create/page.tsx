@@ -28,7 +28,6 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = (
       status,
       tanggalEvent: tanggalEvent,
       categoriId: categorievent,
-      imgEvent: `/assets/event/${req.file?.filename} `,
     };
     try {
       console.log('data event', newData);
