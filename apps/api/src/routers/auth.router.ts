@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { verifyToken } from '../middleware/verifyToken';
+import { uploader } from '@/middleware/uploader';
 
 export class AuthRouter {
   private route: Router;
@@ -13,12 +14,18 @@ export class AuthRouter {
   }
 
   private initializeRoutes(): void {
-    this.route.post("/regis", this.authController.regis);
-    this.route.post("/login", this.authController.login);
-    this.route.get("/keepLogin", verifyToken, this.authController.keepLogin);
-  }
+    this.route.post('/regis', this.authController.regis);
+    this.route.post('/login', this.authController.login);
+    this.route.get('/keepLogin', verifyToken, this.authController.keepLogin);
 
+    this.route.patch(
+      '/img-event',
+      verifyToken,
+      uploader().single('img'),
+      this.authController.uploadImgEvent,
+    );
+  }
   getRoute(): Router {
     return this.route;
   }
-};
+}
