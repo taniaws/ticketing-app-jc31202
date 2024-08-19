@@ -6,28 +6,25 @@ import { useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
 import { withAuthAdmin } from '@/hoc/authGuard';
 import Link from 'next/link';
+import { STATUS, TYPE } from '@prisma/client';
+import Image from 'next/image';
 
 interface IMyEventProps {
     id: number;
-    nama_event: string;
-    tanggal_event: string;
-    deskripsi_event: string;
-    user_id: number;
+    namaEvent: string;
+    tanggalEvent: string;
+    deskripsiEvent: string;
+    userId: number;
+    status: STATUS;
+    type: TYPE;
+    imgProfile: string;
     location: {
         id: number;
-        location_name: string;
-    };
-    type: {
-        id: number;
-        type_name: string;
+        locationName: string;
     };
     categori: {
         id: number;
-        categoriname: string;
-    };
-    status: {
-        id: number;
-        Statusname: string;
+        categoriName: string;
     };
 }
 
@@ -66,25 +63,31 @@ const MyEvent: React.FunctionComponent<IMyEventProps> = (props) => {
         <div>
             {events.map((event: IMyEventProps) => (
                 <div key={event.id} className="p-4 mb-4 border rounded-lg shadow-md my-6">
-                    <h1 className="text-2xl font-bold text-blue-700 mb-2">{event.nama_event}</h1>
-                    <p className="text-gray-600">{event.deskripsi_event}</p>
+                    <h1 className="text-2xl font-bold text-blue-700 mb-2">{event.namaEvent}</h1>
+                    <Image
+                        src={event.imgProfile}
+                        alt={event.namaEvent}
+                        width={200}
+                        height={200}
+                    />
+                    <p className="text-gray-600">{event.deskripsiEvent}</p>
                     <p className="text-gray-600">
                         <span className="font-semibold">Date: </span>
-                        {new Date(event.tanggal_event).toLocaleDateString()}
+                        {new Date(event.tanggalEvent).toLocaleDateString()}
                     </p>
                     <p className="text-gray-600">
                         <span className="font-semibold">Location: </span>
-                        {event.location?.location_name}
+                        {event.location?.locationName}
                     </p>
                     <div className="mt-2">
                         <p className="inline-block text-white bg-green-500 px-3 py-1 rounded-full text-sm font-medium mr-2">
-                            Category: {event.categori?.categoriname}
+                            Category: {event.categori?.categoriName}
                         </p>
                         <p className="inline-block text-white bg-yellow-500 px-3 py-1 rounded-full text-sm font-medium mr-2">
-                            Status: {event.status?.Statusname}
+                            Status: {event.status}
                         </p>
                         <p className="inline-block text-white bg-purple-500 px-3 py-1 rounded-full text-sm font-medium">
-                            Type: {event.type.type_name}
+                            Type: {event.type}
                         </p>
                     </div>
                 </div>

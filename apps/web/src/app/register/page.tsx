@@ -31,7 +31,7 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
       .email('Invalid Email Address')
       .required('Email is required'),
     name: yup.string().required('Full Name is required'),
-    notelp: yup.string().required('Phone Number is required'),
+    noTelp: yup.string().required('Phone Number is required'),
     role: yup.string().required('Role is required'),
     password: yup
       .string()
@@ -47,7 +47,7 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
     try {
       const userData = {
         name: values.name,
-        notelp: values.notelp,
+        noTelp: values.noTelp,
         role: values.role,
         email: values.email,
         referralCode: values.referralCode,
@@ -123,7 +123,7 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
           initialValues={{
             email: '',
             name: '',
-            notelp: '',
+            noTelp: '',
             role: '',
             referralCode: '',
             password: '',
@@ -170,11 +170,11 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
                 </label>
                 <Field
                   type="text"
-                  name="notelp"
+                  name="noTelp"
                   className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
                 />
                 <ErrorMessage
-                  name="notelp"
+                  name="noTelp"
                   component="div"
                   className="text-red-500 text-sm"
                 />

@@ -37,7 +37,7 @@ const UserProvider: React.FunctionComponent<IUserProviderProps> = ({
       setUser({
         name: data.result.name,
         email: data.result.email,
-        notelp: data.result.notelp,
+        noTelp: data.result.noTelp,
         role: data.result.role,
         password: data.result.password,
         referral_code: data.result.referral_code

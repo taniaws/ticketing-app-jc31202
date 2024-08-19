@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { UserContext } from '@/context/UserContext';
 import Link from 'next/link';
-import { withAuthAdmin } from '@/hoc/authGuard';
+import { withAuthUser } from '@/hoc/authGuard';
 
 interface IProfileProps {
     user: {
@@ -29,7 +29,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                         Edit Profile
                     </Link>
                 </div> */}
-                <hr className='border border-b-2 my-5'/>
+                <hr className='border border-b-2 mb-5'/>
                 <div className="flex flex-col pb-5">
                     <h2 className="font-medium text-slate-400 pb-2">Full Name</h2>
                     <p className="px-6 py-5 rounded-md border border-slate-300">{user?.name}</p>
@@ -51,4 +51,4 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
     );
 };
 
-export default withAuthAdmin(Profile);
+export default withAuthUser(Profile);
