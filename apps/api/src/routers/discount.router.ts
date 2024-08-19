@@ -1,0 +1,23 @@
+import { Router } from 'express';
+import { DiscountController } from '../controllers/discount.controller';
+
+export class DiscountRouter {
+  private route: Router;
+  private discountController: DiscountController;
+
+  constructor() {
+    this.route = Router();
+    this.discountController = new DiscountController();
+    this.initializeRoutes();
+  }
+
+  private initializeRoutes(): void {
+    this.route.post("/createDiscount", this.discountController.createDiscount);
+    this.route.get("/getDiscount/:userId", this.discountController.getValidDiscount);
+    this.route.patch("/deleteDiscount", this.discountController.markExpiredDiscountAsDeleted);
+  }
+
+  getRoute(): Router {
+    return this.route;
+  }
+};

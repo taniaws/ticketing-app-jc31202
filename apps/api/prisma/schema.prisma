@@ -23,9 +23,16 @@ model discount {
   id                 Int                  @id @unique(map: "id") @default(autoincrement())
   title              String               @db.VarChar(255)
   description        String               @db.VarChar(255)
-  tanggal            DateTime             @db.Date
-  price              Int
+  datecreate         DateTime             @db.Date
+  dateexpire         DateTime             @db.Date
+  isdeleted          Boolean              @default(false)
+  percent            Int
+  code               String               @unique
+  user_id            Int
   detail_transaction detail_transaction[]
+  user               user                 @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Discount_fk1")
+
+  @@index([user_id], map: "Discount_fk1")
 }
 
 model event {
@@ -34,18 +41,20 @@ model event {
   nama_event         String               @db.VarChar(255)
   tanggal_event      DateTime             @db.Date
   location_id        Int
-  type               TYPE
   deskripsi_event    String               @db.VarChar(255)
   categori_id        Int
-  status             STATUS
+  status_id          Int
+  type_id            Int
   detail_transaction detail_transaction[]
   location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
+  type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
   categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
   feedback           feedback[]
   imgEvent           String?
 
   @@index([location_id], map: "Event_fk3")
   @@index([categori_id], map: "Event_fk7_idx")
+  @@index([type_id], map: "Event_fk5")
 }
 
 model feedback {
@@ -71,6 +80,8 @@ model point {
   user_id    Int
   amount     Int
   datecreate DateTime @db.Date
+  dateexpire DateTime @db.Date
+  isdeleted  Boolean  @default(false)
   user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Point_fk1")
 
   @@index([user_id], map: "Point_fk1")
@@ -99,6 +110,7 @@ model user {
   password           String        @db.VarChar(350)
   referral_code      String?        @unique
   role               ROLE          @default(CUSTOMER)
+  discount           discount[]
   feedback           feedback[]
   point              point[]
   transaction        transaction[]
@@ -110,18 +122,23 @@ model categori {
   event        event[]
 }
 
+model status {
+  id         Int     @id @default(autoincrement())
+  Statusname String? @db.VarChar(45)
+}
+
+model type {
+  id        Int            @id @unique(map: "id") @default(autoincrement())
+  type_name type_type_name
+  event     event[]
+}
+
 enum ROLE {
   CUSTOMER
   ADMIN
 }
 
-enum TYPE {
+enum type_type_name {
   FREE
   PAID
 }
-
-enum STATUS{
-  UPCOMING
-  ONGOING
-  COMPLETED
- }

@@ -65,6 +65,9 @@ export default class App {
 
     const pointsRouter = new PointsRouter();
     this.app.use('/api/points', pointsRouter.getRoute());
+
+    const discountRouter = new DiscountRouter();
+    this.app.use('/api/discount', discountRouter.getRoute());
   }
 
   public start(): void {

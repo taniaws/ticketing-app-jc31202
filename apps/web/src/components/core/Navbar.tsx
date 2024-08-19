@@ -4,12 +4,14 @@ import Link from 'next/link';
 import * as React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { LoginContext } from "@/context/UserContext";
+import { LoginContext, UserContext } from "@/context/UserContext";
+import { ROLE } from '@prisma/client';
 
 interface INavbarProps {
 }
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
   const { isLoggedIn, setIsLoggedIn } = React.useContext(LoginContext);
+  const { user, setUser } = React.useContext(UserContext);
   const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem('auth');
@@ -28,7 +30,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
   }, [setIsLoggedIn]);
 
   return (
-    <div className="mx-auto p-4 shadow-md sticky">
+    <div className="fixed top-0 left-0 w-full bg-white z-50 p-4 shadow-md">
       <div className="flex justify-between items-center">
         <div className="flex items-center flex-1">
           <Image 
@@ -38,25 +40,43 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
             alt="Meteor Logo" 
             className="pl-3"
           />
-          <h1 className="text-xl font-semibold pl-2">Bad Event Surabaya</h1>
+          <h1 className="text-lg font-semibold pl-2">Bad Event Surabaya</h1>
         </div>
-        {isLoggedIn && (
+        {isLoggedIn && user?.role === ROLE.CUSTOMER && (
           <div className='flex-1'>
             <NavigationMenu className="list-none flex gap-7 font-semibold">
               <NavigationMenuItem>
                 <Link href="/">Home</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/event">Event</Link>
+                <Link href="/event">Events</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/blog">Blog</Link>
+                <Link href="/tickets">Tickets</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/biaya">Biaya</Link>
+                <Link href="/points">Points</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/contact">Contact</Link>
+                <Link href="/review">Reviews</Link>
+              </NavigationMenuItem>
+            </NavigationMenu>
+          </div>
+        )}
+        {isLoggedIn && user?.role === ROLE.ADMIN && (
+          <div className='flex-1'>
+            <NavigationMenu className="list-none flex gap-7 font-semibold">
+              <NavigationMenuItem>
+                <Link href="/">Home</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/event">Events</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/dashboard">Dashboard</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/statistics">Statistics</Link>
               </NavigationMenuItem>
             </NavigationMenu>
           </div>

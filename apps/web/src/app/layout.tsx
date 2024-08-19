@@ -24,7 +24,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <UserProvider>
           <Navbar/>
-          {children}
+          <div className="pt-20">
+            {children}
+          </div>
         </UserProvider>
       </body>
     </html>
