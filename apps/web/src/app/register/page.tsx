@@ -204,16 +204,16 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="flex flex-col relative pb-5">
-                <label className="font-medium text-slate-400 pb-2 absolute top-3 left-6">
-                  Referral Code (Optional)
-                </label>
-                <Field
-                  type="text"
-                  name="referralCode"
-                  className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
-                />
-              </div>
+              {selectedRole !== "ADMIN" && (
+                <div className="flex flex-col relative pb-5">
+                  <label className='font-medium text-slate-400 pb-2 absolute top-3 left-6'>Referral Code (Optional)</label>
+                  <Field
+                    type="text"
+                    name="referralCode"
+                    className="px-6 pt-10 pb-5 rounded-md border border-slate-300"
+                  />
+                </div>
+              )}
               <div className="flex flex-col relative pb-5">
                 <label className="font-medium text-slate-400 pb-2 absolute top-3 left-6">
                   Password

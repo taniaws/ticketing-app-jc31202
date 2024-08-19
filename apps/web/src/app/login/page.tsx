@@ -44,7 +44,11 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
         password: data.result.password,
         referral_code: data.result.referral_code,
     });
-      router.push("/");
+      if (user?.role === "CUSTOMER") {
+        router.push("/");
+      } else {
+        router.push("/admin/myevent")
+      }
     } catch (error: any) {
       console.log(error);
       toast(error.response.data.error.message);
@@ -52,9 +56,14 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
   };
 
   React.useEffect(() => {
-    if (user?.email) {
+    if (user?.email && user?.role === "CUSTOMER") {
       router.replace("/");
     }
+
+    if (user?.email && user?.role === "ADMIN") {
+      router.replace("/admin/myevent");
+    }
+
       setTimeout(() => {
         setIsAuthenticated(true);
       }, 1500)

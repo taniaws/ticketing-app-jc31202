@@ -20,10 +20,10 @@ model user {
   referralCode       String?       @unique
   role               ROLE          @default(CUSTOMER)
   discount           discount[]
+  event              event[]
   feedback           feedback[]
   point              point[]
   transaction        transaction[]
-  event              event[]
 }
 
 model point {
