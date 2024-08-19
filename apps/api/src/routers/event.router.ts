@@ -1,3 +1,4 @@
+import { verifyToken } from '../middleware/verifyToken';
 import { EventController } from '../controllers/event.controller';
 import { Router } from 'express';
 
@@ -12,10 +13,10 @@ export class EventRouter {
   }
 
   private initializeRoutes(): void {
-    this.route.post('/create', this.eventController.createEvent);
-    this.route.patch('/update/:id',this.eventController.updateEvent);
-    this.route.delete('/delete/:id',this.eventController.DeleteEvent);
-    this.route.get('/get/:id',this.eventController.GetEvent);
+    this.route.post('/create', verifyToken, this.eventController.createEvent);
+    this.route.patch('/update/:id', this.eventController.updateEvent);
+    this.route.delete('/delete/:id', this.eventController.DeleteEvent);
+    this.route.get('/get/:id', this.eventController.GetEvent);
   }
 
   getRoute(): Router {

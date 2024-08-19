@@ -1,4 +1,3 @@
-
 import express, {
   json,
   urlencoded,
@@ -14,10 +13,10 @@ import { AuthRouter } from './routers/auth.router';
 import { PointsRouter } from './routers/points.router';
 import { DiscountRouter } from './routers/discount.router';
 import { DashboardRouter } from './routers/dashboard.router';
+import path from 'path';
 
 const PORT = process.env.port;
-console.log("port::", PORT);
-
+console.log('port::', PORT);
 
 export default class App {
   private app: Express;
@@ -33,6 +32,7 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+    this.app.use('/assets', express.static(path.join(__dirname, '../public')));
   }
 
   private handleError(): void {
@@ -64,10 +64,10 @@ export default class App {
 
     const authRouter = new AuthRouter();
     this.app.use('/api/auth', authRouter.getRoute());
-    
+
     const pointsRouter = new PointsRouter();
     this.app.use('/api/points', pointsRouter.getRoute());
-  
+
     const discountRouter = new DiscountRouter();
     this.app.use('/api/discount', discountRouter.getRoute());
     
