@@ -44,15 +44,21 @@ model event {
   categori_id        Int
   status_id          Int
   type_id            Int
+  user_id            Int
+  imgEvent           String?
   detail_transaction detail_transaction[]
+  status             status               @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk11")
   location           location             @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
   type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
   categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
+  user               user                 @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk9")
   feedback           feedback[]
 
   @@index([location_id], map: "Event_fk3")
   @@index([categori_id], map: "Event_fk7_idx")
   @@index([type_id], map: "Event_fk5")
+  @@index([user_id], map: "Event_fk9_idx")
+  @@index([status_id], map: "Event_fk11_idx")
 }
 
 model feedback {
@@ -109,6 +115,7 @@ model user {
   referral_code      String        @unique
   role               ROLE          @default(CUSTOMER)
   discount           discount[]
+  event              event[]
   feedback           feedback[]
   point              point[]
   transaction        transaction[]
@@ -123,6 +130,7 @@ model categori {
 model status {
   id         Int     @id @default(autoincrement())
   Statusname String? @db.VarChar(45)
+  event      event[]
 }
 
 model type {

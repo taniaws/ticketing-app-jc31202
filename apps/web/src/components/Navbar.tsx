@@ -44,39 +44,42 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
         </div>
         {isLoggedIn && user?.role === ROLE.CUSTOMER && (
           <div className='flex-1'>
-            <NavigationMenu className="list-none flex gap-7 font-semibold">
+            <NavigationMenu className="list-none flex gap-7 font-semibold justify-between">
               <NavigationMenuItem>
                 <Link href="/">Home</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/event">Events</Link>
+                <Link href="/customer/event">Events</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/tickets">Tickets</Link>
+                <Link href="/customer/tickets">Tickets</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/points">Points</Link>
+                <Link href="/customer/points">Points</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/review">Reviews</Link>
+                <Link href="/customer/review">Reviews</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/customer/profile">Profile</Link>
               </NavigationMenuItem>
             </NavigationMenu>
           </div>
         )}
         {isLoggedIn && user?.role === ROLE.ADMIN && (
           <div className='flex-1'>
-            <NavigationMenu className="list-none flex gap-7 font-semibold">
+            <NavigationMenu className="list-none flex gap-7 font-semibold justify-between">
               <NavigationMenuItem>
-                <Link href="/">Home</Link>
+                <Link href="/admin/myevent">Events</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/event">Events</Link>
+                <Link href="/admin/registration">Registration</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/admin/statistics">Statistics</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/statistics">Statistics</Link>
+                <Link href="/admin/profile">Profile</Link>
               </NavigationMenuItem>
             </NavigationMenu>
           </div>

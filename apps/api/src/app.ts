@@ -13,6 +13,7 @@ import { EventRouter } from './routers/event.router';
 import { AuthRouter } from './routers/auth.router';
 import { PointsRouter } from './routers/points.router';
 import { DiscountRouter } from './routers/discount.router';
+import { DashboardRouter } from './routers/dashboard.router';
 
 const PORT = process.env.port;
 console.log("port::", PORT);
@@ -69,6 +70,9 @@ export default class App {
   
     const discountRouter = new DiscountRouter();
     this.app.use('/api/discount', discountRouter.getRoute());
+    
+    const dashboardRouter = new DashboardRouter();
+    this.app.use('/api/dashboard', dashboardRouter.getRoute());
   }
 
   public start(): void {
