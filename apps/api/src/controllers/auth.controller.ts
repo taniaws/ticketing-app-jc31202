@@ -4,6 +4,7 @@ import { hashPassword } from "../utils/hash";
 import { compareSync } from "bcrypt";
 import { createToken } from "../utils/jwt";
 import { v4 as uuidv4 } from 'uuid';
+import { Console } from "console";
 
 
 interface IUser {
@@ -153,6 +154,31 @@ export class AuthController {
         } catch (error) {
             next(error);
         }
+        
     }
     
+    async uploadImgEvent(req:Request,res:Response,next:NextFunction) {
+      try {
+        console.log("LOG FROM FILE CONTROLLER");
+        
+        console.log("FILE UPLOAD INFO:",req.file);
+        if (res.locals.decript.id) {
+          await prisma.event.update({
+            data:{
+             imgEvent:`/assets/${req.file?.filename}`, 
+            },
+            where:{
+              id:res.locals.decript.id,
+            }
+          })
+        }
+        return res.status(200).send({
+          succes:true,
+          message:"upload img event succes"
+        })
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }   
 };

@@ -37,6 +37,7 @@ model discount {
 
 model event {
   id                 Int                  @id @unique(map: "id") @default(autoincrement())
+  user_id            Int
   nama_event         String               @db.VarChar(255)
   tanggal_event      DateTime             @db.Date
   location_id        Int
@@ -49,6 +50,7 @@ model event {
   type               type                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk5")
   categori           categori             @relation(fields: [categori_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
   feedback           feedback[]
+  imgEvent           String?
 
   @@index([location_id], map: "Event_fk3")
   @@index([categori_id], map: "Event_fk7_idx")
@@ -106,7 +108,7 @@ model user {
   isBlocked          Boolean       @default(false)
   limitWrongPassword Int           @default(0)
   password           String        @db.VarChar(350)
-  referral_code      String        @unique
+  referral_code      String?        @unique
   role               ROLE          @default(CUSTOMER)
   discount           discount[]
   feedback           feedback[]
