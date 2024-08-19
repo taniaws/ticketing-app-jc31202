@@ -6,14 +6,15 @@ export class EventController {
       console.log('cretea event', req.body);
       const createEvent = await prisma.event.create({
         data: {
-          nama_event: req.body.nama_event,
-          tanggal_event: new Date(req.body.tanggal_event).toISOString(),
-          location_id: parseInt(req.body.location_id),
-          user_id: res.locals.decript.id,
+          namaEvent: req.body.namaEvent,
+          tanggalEvent: new Date(req.body.tanggalEvent).toISOString(),
+          locationId: parseInt(req.body.locationId),
+          userId: res.locals.decript.id,
           type: req.body.type,
           status: req.body.status,
-          deskripsi_event: req.body.deskripsi_event,
-          categori_id: req.body.categori_id,
+          deskripsiEvent: req.body.deskripsiEvent,
+          categoriId: req.body.categoriId,
+          imgEvent: `/assets/event/${req.file?.filename} `,
         },
       });
 
@@ -31,14 +32,15 @@ export class EventController {
       const updateEvent = await prisma.event.update({
         where: { id: Number(id) },
         data: {
-          nama_event: req.body.nama_event,
-          tanggal_event: new Date(req.body.tanggal_event).toISOString(),
-          location_id: parseInt(req.body.location_id),
-          user_id: res.locals.decript.id,
+          namaEvent: req.body.namaEvent,
+          tanggalEvent: new Date(req.body.tanggalEvent).toISOString(),
+          locationId: parseInt(req.body.locationId),
+          userId: res.locals.decript.id,
           type: req.body.type,
           status: req.body.status,
-          deskripsi_event: req.body.deskripsi_event,
-          categori_id: req.body.categori_id,
+          deskripsiEvent: req.body.deskripsiEvent,
+          categoriId: req.body.categoriId,
+          imgEvent: `/assets/event/${req.file?.filename}`,
         },
       });
       return res.status(200).send({
@@ -75,14 +77,18 @@ export class EventController {
       const getEven = await prisma.event.findMany({
         where: { id: Number(id) },
         select: {
-          nama_event: req.body.nama_event,
-          tanggal_event: true,
-          location_id: true,
-          user_id: res.locals.decript.id,
-          type: req.body.type,
-          status: req.body.status,
-          deskripsi_event: req.body.deskripsi_event,
-          categori_id: req.body.categori_id,
+          namaEvent: true,
+          tanggalEvent: true,
+          location: {
+            select: {
+              locationName: true,
+            },
+          },
+          userId: true,
+          type: true,
+          status: true,
+          deskripsiEvent: true,
+          categoriId: true,
         },
       });
       return res.status(200).send({

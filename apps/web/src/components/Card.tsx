@@ -17,5 +17,4 @@ const Cardticket: React.FunctionComponent<ICardticketProps> = (props) => {
     </div>
   );
 };
-
 export default Cardticket;

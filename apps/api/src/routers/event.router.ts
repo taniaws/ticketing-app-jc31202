@@ -14,9 +14,9 @@ export class EventRouter {
 
   private initializeRoutes(): void {
     this.route.post('/create', verifyToken, this.eventController.createEvent);
-    // this.route.patch('/update/:id', this.eventController.updateEvent);
-    // this.route.delete('/delete/:id', this.eventController.DeleteEvent);
-    // this.route.get('/get/:id',this.eventController.GetEvent);
+    this.route.patch('/update/:id', this.eventController.updateEvent);
+    this.route.delete('/delete/:id', this.eventController.DeleteEvent);
+    this.route.get('/get/:id', this.eventController.GetEvent);
   }
 
   getRoute(): Router {
