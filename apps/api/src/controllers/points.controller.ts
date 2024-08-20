@@ -52,12 +52,27 @@ export class PointsController {
   }
   // Get Valid Points for a User
   async getValidPoints(req: Request, res: Response, next: NextFunction) {
-    const { userId } = req.params; // front end --> hubungkan ke userId
+    const { email } = req.params; // front end --> hubungkan ke email
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required',
+      });
+    }
+    
     try {
       const now = new Date();
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      
       const points = await prisma.point.findMany({
         where: {
-          userId: Number(userId),
+          userId: user?.id,
           dateExpire: {
             //gte --> greater than / equal to >=
             gte: now,
@@ -81,11 +96,7 @@ export class PointsController {
   }
 
   // Soft Delete expired points
-  async markExpiredPointsAsDeleted(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async markExpiredPointsAsDeleted(req: Request, res: Response, next: NextFunction) {
     const now = new Date();
     try {
       const result = await prisma.point.updateMany({

@@ -51,13 +51,27 @@ export class DiscountController {
 
   // Get Valid Discount for a User
   async getValidDiscount(req: Request, res: Response, next: NextFunction) {
-    const { userId } = req.params; // front end --> hubungkan ke userId
+    const { email } = req.params; // front end --> hubungkan ke email
 
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required',
+      });
+    }
+    
     try {
       const now = new Date();
-      const points = await prisma.discount.findMany({
+
+      const user = await prisma.user.findUnique({
         where: {
-          userId: Number(userId),
+          email: email,
+        },
+      });
+      
+      const discounts = await prisma.discount.findMany({
+        where: {
+          userId: user?.id,
           dateExpire: {
             //gte --> greater than / equal to >=
             gte: now,
@@ -68,7 +82,7 @@ export class DiscountController {
 
       return res.status(200).json({
         success: true,
-        points,
+        discounts,
       });
     } catch (error) {
       console.log(error);

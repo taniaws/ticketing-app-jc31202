@@ -12,15 +12,9 @@ export class PointsRouter {
   }
 
   private initializeRoutes(): void {
-    this.route.post(
-      '/redeemreferralcode',
-      this.pointsController.redeemReferralCode,
-    );
-    this.route.get('/getpoints/:userId', this.pointsController.getValidPoints);
-    this.route.patch(
-      '/deletepoints',
-      this.pointsController.markExpiredPointsAsDeleted,
-    );
+    this.route.post('/redeemreferralcode', this.pointsController.redeemReferralCode);
+    this.route.get('/getpoints/:email', this.pointsController.getValidPoints);
+    this.route.patch('/deletepoints', this.pointsController.markExpiredPointsAsDeleted);
   }
 
   getRoute(): Router {
