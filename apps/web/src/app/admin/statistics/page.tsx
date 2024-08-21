@@ -83,7 +83,6 @@ const Statistics: React.FunctionComponent<IStatisticsProps> = (props) => {
     }
     return date;
   };
-  
   const renderCardContent = (dataKey: keyof typeof chartConfig) => (
     <CardContent className="px-2 sm:p-6">
       <ChartContainer
@@ -102,6 +101,7 @@ const Statistics: React.FunctionComponent<IStatisticsProps> = (props) => {
             tickMargin={8}
             minTickGap={32}
             tickFormatter={(value) => formatDate(value, range)}
+
           />
           <ChartTooltip
             content={
@@ -110,6 +110,7 @@ const Statistics: React.FunctionComponent<IStatisticsProps> = (props) => {
                 nameKey={dataKey}
                 labelFormatter={(value) => {
                   return formatDate(value, range);
+
                 }}
               />
             }
