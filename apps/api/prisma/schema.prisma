@@ -81,6 +81,7 @@ model event {
   tanggalEvent   DateTime      @db.Date
   type           TYPE
   userId         Int
+  harga          Int
   user           user          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk1")
   location       location      @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
   categori       categori      @relation(fields: [categoriId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
@@ -94,18 +95,19 @@ model event {
 
 model transaction {
   id                Int                 @id @unique(map: "id") @default(autoincrement())
-  userId            Int
   amount            Int
-  createdAt         DateTime
   eventId           Int
-  discountId        Int
-  transactionCode   String              @unique(map: "transactionCode_UNIQUE") @db.VarChar(45)
-  quantity          Int
+  userId            Int
+  createdAt         DateTime
+  discountId        Int?
   price             Int
+  quantity          Int
+  transactionCode   String              @unique(map: "transactionCode_UNIQUE") @db.VarChar(45)
+  pointsUsed        Int                 @default(0)
   detailtransaction detailtransaction[]
   user              user                @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk1")
   event             event               @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk2")
-  discount          discount            @relation(fields: [discountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk3")
+  discount          discount?           @relation(fields: [discountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk3")
 
   @@index([userId], map: "Transaction_fk1")
   @@index([eventId], map: "Transaction_fk2")
@@ -121,8 +123,8 @@ model categori {
 model detailtransaction {
   id            Int         @id @unique(map: "id") @default(autoincrement())
   transactionId Int
-  ticketcode    String      @unique(map: "ticketcode_UNIQUE") @db.VarChar(45)
   isAttendance  Boolean     @default(false)
+  ticketcode    String      @unique(map: "ticketcode_UNIQUE") @db.VarChar(45)
   transaction   transaction @relation(fields: [transactionId], references: [id], map: "detailTransaction_transactionId_fkey")
 
   @@index([transactionId], map: "detailTransaction_transactionId_fkey")
