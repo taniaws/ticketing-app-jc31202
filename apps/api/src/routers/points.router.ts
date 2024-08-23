@@ -15,6 +15,7 @@ export class PointsRouter {
     this.route.post('/redeemreferralcode', this.pointsController.redeemReferralCode);
     this.route.get('/getpoints/:email', this.pointsController.getValidPoints);
     this.route.patch('/deletepoints', this.pointsController.markExpiredPointsAsDeleted);
+    this.route.post('/redeemPoints', this.pointsController.redeemPoints);
   }
 
   getRoute(): Router {
