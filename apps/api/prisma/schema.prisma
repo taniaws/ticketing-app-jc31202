@@ -20,10 +20,10 @@ model user {
   referralCode       String?       @unique
   role               ROLE          @default(CUSTOMER)
   discount           discount[]
-  event              event[]
   feedback           feedback[]
   point              point[]
   transaction        transaction[]
+  event              event[]
 }
 
 model point {
@@ -53,7 +53,6 @@ model discount {
 
   @@index([userId], map: "Discount_fk1")
 }
-
 model feedback {
   id       Int    @id @unique(map: "id") @default(autoincrement())
   eventId  Int
@@ -85,6 +84,7 @@ model event {
   deskripsiEvent    String              @db.VarChar(255)
   categoriId        Int
   status            STATUS
+  harga             Int                 @default(0)
   detailTransaction detailTransaction[]
   location          location            @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk3")
   categori          categori            @relation(fields: [categoriId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Event_fk7")
@@ -102,6 +102,7 @@ model transaction {
   userId            Int
   amount            Int
   createdAt         DateTime
+  harga             Int                 @default(0)              
   eventId           Int
   user              user                @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk1")
   event             event               @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_fk2")
@@ -116,13 +117,11 @@ model detailTransaction {
   discountId    Int
   discount      discount    @relation(fields: [discountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Detail_Transaction_fk2")
   transactionId Int
-  transaction   transaction @relation(fields: [transactionId], references: [id], map: "detailTransaction_transactionId_fkey")
+  transaction   transaction @relation(fields: [transactionId], references: [id])
+  event         event?      @relation(fields: [eventId], references: [id])
   eventId       Int?
-  event         event?      @relation(fields: [eventId], references: [id], map: "detailTransaction_eventId_fkey")
 
   @@index([discountId], map: "Detail_Transaction_fk2")
-  @@index([eventId], map: "detailTransaction_eventId_fkey")
-  @@index([transactionId], map: "detailTransaction_transactionId_fkey")
 }
 
 model categori {
