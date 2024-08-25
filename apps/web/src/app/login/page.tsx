@@ -40,7 +40,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
         noTelp: data.result.noTelp,
         role: data.result.role,
         password: data.result.password,
-        referral_code: data.result.referral_code,
+        referralCode: data.result.referralCode,
     });
       if (user?.role === "ADMIN") {
         router.push("/admin/myevent");
