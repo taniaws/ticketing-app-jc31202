@@ -72,7 +72,7 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
           description: '10% discount for registering with a referral code.',
           percent: 10,
           code: 'REFERRAL10',
-          user_id: regis.data.user_id,
+          userId: regis.data.userId,
         };
         console.log('DISCOUNT DATA USER ID AND REFERRAL CODE::', discountData);
 
@@ -82,7 +82,6 @@ const RegisterPage: React.FunctionComponent<IRegisterPageProps> = (props) => {
         );
         console.log('DISCOUNT CREATED::', createDiscount);
       }
-
       router.push('/');
     } catch (error: any) {
       console.log(error);

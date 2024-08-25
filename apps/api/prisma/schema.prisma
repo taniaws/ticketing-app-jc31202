@@ -41,7 +41,7 @@ model discount {
   title       String        @db.VarChar(255)
   description String        @db.VarChar(255)
   percent     Int
-  code        String        @unique
+  code        String
   dateCreate  DateTime      @db.Date
   dateExpire  DateTime      @db.Date
   isDeleted   Boolean       @default(false)

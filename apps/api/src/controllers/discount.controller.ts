@@ -16,7 +16,7 @@ interface IDiscount {
 export class DiscountController {
   async createDiscount(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, description, percent, code, user_id } = req.body;
+      const { title, description, percent, code, userId } = req.body;
 
       const expirationDate = new Date();
       expirationDate.setMonth(expirationDate.getMonth() + 3);
@@ -30,7 +30,7 @@ export class DiscountController {
           isDeleted: false,
           percent,
           code,
-          userId: user_id,
+          userId: userId,
         },
       });
 
