@@ -41,7 +41,7 @@ export class DashboardController {
 
     //get attendees registration
     async getAttendees(req: Request, res: Response, next: NextFunction) {
-        const { email } = req.params;
+        const { email, eventId } = req.params;
 
         if (!email) {
             return res.status(400).json({
@@ -67,14 +67,20 @@ export class DashboardController {
                 });
             }
     
-            const AdminEventIds = adminUser.event.map(event => event.id);
+            const adminEventIds = adminUser.event.map(event => event.id);
+
+            if (adminEventIds.length === 0) {
+                return res.status(200).json({
+                    success: true,
+                    message: "No events found for this admin.",
+                    data: [],
+                });
+            }
+            
+            const eventFilter = eventId ? { eventId: parseInt(eventId) } : { eventId: { in: adminEventIds } };
     
             const attendees = await prisma.transaction.findMany({
-                where: {
-                    eventId: {
-                        in: AdminEventIds,
-                    },
-                },
+                where: eventFilter,
                 include: {
                     user: {
                         select: {
@@ -86,6 +92,11 @@ export class DashboardController {
                         select: {
                             id: true,
                             namaEvent: true,
+                        },
+                    },
+                    detailtransaction: {
+                        select: {
+                            ticketcode: true,
                         },
                     },
                 },

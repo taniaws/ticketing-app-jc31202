@@ -12,7 +12,7 @@ export type LanguageContextType = {
     noTelp?: string;
     role: ROLE;
     password: string;
-    referral_code?: string;
+    referralCode?: string;
     point?: PointType[];
     discount?: DiscountType[];
     transaction?: TransactionType[];
