@@ -137,7 +137,7 @@ export class AuthController {
             email: findUser?.email,
             noTelp: findUser?.noTelp,
             role: findUser?.role,
-            referral_code: findUser?.referralCode,
+            referralCode: findUser?.referralCode,
             token: createToken(
               { id: findUser.id, email: findUser.email },
               '24h',

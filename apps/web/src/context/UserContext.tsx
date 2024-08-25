@@ -40,7 +40,7 @@ const UserProvider: React.FunctionComponent<IUserProviderProps> = ({
         noTelp: data.result.noTelp,
         role: data.result.role,
         password: data.result.password,
-        referral_code: data.result.referral_code
+        referralCode: data.result.referralCode
     });
       setIsLoggedIn(true);
     } catch (error) {
