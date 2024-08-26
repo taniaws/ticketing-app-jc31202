@@ -54,7 +54,7 @@ export class DiscountController {
     const { email } = req.params; // front end --> hubungkan ke email
 
     if (!email) {
-      return res.status(400).json({
+      return res.status(400).send({
         success: false,
         message: 'Email is required',
       });
@@ -80,7 +80,7 @@ export class DiscountController {
         },
       });
 
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         discounts,
       });
@@ -115,7 +115,7 @@ export class DiscountController {
         },
       });
 
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         data_deleted: result.count,
       });
@@ -129,26 +129,26 @@ export class DiscountController {
     const { userId, discountCode, eventId, quantity } = req.body;
 
     if (!userId || !discountCode || !eventId || !quantity) {
-      return res.status(400).json({
+      return res.status(400).send({
         success: false,
         message: 'User ID, discount code, event ID, and quantity are required',
       });
     }
 
     try {
-      const discount = await prisma.discount.findUnique({
+      const discount = await prisma.discount.findFirst({
         where: { code: discountCode },
       });
 
       if (!discount) {
-        return res.status(404).json({
+        return res.status(404).send({
           success: false,
           message: 'Discount code not found',
         });
       }
 
       if (discount.isDeleted) {
-        return res.status(400).json({
+        return res.status(400).send({
           success: false,
           message: 'Discount code is invalid or expired',
         });
@@ -164,7 +164,7 @@ export class DiscountController {
   
 
       if (existingUse) {
-        return res.status(400).json({
+        return res.status(400).send({
           success: false,
           message: 'Discount code already used by user',
         });
@@ -175,7 +175,7 @@ export class DiscountController {
       });
   
       if (!event) {
-        return res.status(404).json({
+        return res.status(404).send({
           success: false,
           message: 'Event not found',
         });
@@ -211,7 +211,7 @@ export class DiscountController {
         data: { isDeleted: true },
       });
 
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         message: 'Discount redeemed successfully',
       });
