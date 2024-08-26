@@ -55,7 +55,7 @@ export class PointsController {
     const { email } = req.params; // front end --> hubungkan ke email
 
     if (!email) {
-      return res.status(400).json({
+      return res.status(400).send({
         success: false,
         message: 'Email is required',
       });
@@ -81,7 +81,7 @@ export class PointsController {
         },
       });
 
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         points,
       });
@@ -111,7 +111,7 @@ export class PointsController {
         },
       });
 
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         data_deleted: result.count,
       });
@@ -131,7 +131,7 @@ export class PointsController {
       });
   
       if (!user) {
-        return res.status(404).json({
+        return res.status(404).send({
           success: false,
           message: 'User not found'
         });
@@ -142,7 +142,7 @@ export class PointsController {
       }, 0);
   
       if (totalUserPoints < pointsToRedeem) {
-        return res.status(400).json({
+        return res.status(400).send({
           success: false,
           message: 'Insufficient points',
         });
@@ -154,7 +154,7 @@ export class PointsController {
       });
   
       if (!transaction) {
-        return res.status(404).json({
+        return res.status(404).send({
           success: false,
           message: 'Transaction not found'
         });
@@ -184,7 +184,7 @@ export class PointsController {
         }
       });
   
-      return res.status(200).json({
+      return res.status(200).send({
         success: true,
         pointsUsed: pointsToRedeem
       });

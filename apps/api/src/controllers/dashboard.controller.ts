@@ -42,7 +42,7 @@ export class DashboardController {
         const { email, eventId } = req.params;
 
         if (!email) {
-            return res.status(400).json({
+            return res.status(400).send({
                 success: false,
                 message: 'Email is required',
             });
@@ -59,7 +59,7 @@ export class DashboardController {
             });
     
             if (!adminUser) {
-                return res.status(404).json({
+                return res.status(404).send({
                     success: false,
                     message: 'Admin user not found',
                 });
@@ -68,7 +68,7 @@ export class DashboardController {
             const adminEventIds = adminUser.event.map(event => event.id);
 
             if (adminEventIds.length === 0) {
-                return res.status(200).json({
+                return res.status(200).send({
                     success: true,
                     message: "No events found for this admin.",
                     data: [],
@@ -121,7 +121,7 @@ export class DashboardController {
         const { email } = req.params;
 
         if (!email) {
-            return res.status(400).json({
+            return res.status(400).send({
                 success: false,
                 message: 'Email is required',
             });
@@ -135,7 +135,7 @@ export class DashboardController {
             });
 
             if (!adminUser) {
-                return res.status(404).json({
+                return res.status(404).send({
                     success: false,
                     message: 'Admin not found',
                 });
@@ -166,7 +166,7 @@ export class DashboardController {
                 },
             });
 
-            return res.status(200).json({
+            return res.status(200).send({
                 success: true,
                 message: "Get transactions list successful",
                 data: transactions,
@@ -187,14 +187,14 @@ export class DashboardController {
         const { range } = req.params;
 
         if (!email) {
-            return res.status(400).json({
+            return res.status(400).send({
                 success: false,
                 message: 'Email is required',
             });
         }
 
         if (!range) {
-            return res.status(400).json({
+            return res.status(400).send({
                 success: false,
                 message: 'Time range is required',
             });
@@ -211,7 +211,7 @@ export class DashboardController {
             });
 
             if (!adminUser) {
-                return res.status(404).json({
+                return res.status(404).send({
                     success: false,
                     message: 'Admin not found',
                 });
@@ -298,20 +298,20 @@ export class DashboardController {
                     break;
                 
                 default:
-                    return res.status(400).json({
+                    return res.status(400).send({
                         success: false,
                         message: 'Invalid time range.',
                     });
             }
 
-            return res.status(200).json({
+            return res.status(200).send({
                 success: true,
                 message: "Get registration statistics successful",
                 data: statistics,
             });
         } catch (error) {
             console.log(error);
-            return res.status(500).json({
+            return res.status(500).send({
                 success: false,
                 message: "Failed to retrieve registration statistic",
                 error: error,
