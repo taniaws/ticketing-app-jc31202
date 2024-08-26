@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
+import { withAuthUser } from '@/hoc/authGuard';
 
 interface IListEventProps {}
 
@@ -19,4 +20,4 @@ const ListEvent: React.FunctionComponent<IListEventProps> = (props) => {
   );
 };
 
-export default ListEvent;
+export default withAuthUser(ListEvent);

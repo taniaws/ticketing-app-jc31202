@@ -1,15 +1,10 @@
 'use client';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import e from 'cors';
-import { Console } from 'console';
-import { string } from 'yup';
 import Image from 'next/image';
-import { Files } from 'lucide-react';
-import DatePicker from 'react-datepicker';
+import { withAuthUser } from '@/hoc/authGuard';
 
 interface ICreateEventPageProps {
   params: {
@@ -206,4 +201,4 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
   );
 };
 
-export default CreateEventPage;
+export default withAuthUser(CreateEventPage);

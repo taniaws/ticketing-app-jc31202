@@ -9,6 +9,7 @@ import { Console } from 'console';
 import { string } from 'yup';
 import Image from 'next/image';
 import { Files } from 'lucide-react';
+import { withAuthAdmin } from '@/hoc/authGuard';
 
 interface ICreateEventPageProps {}
 const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = (
@@ -205,4 +206,4 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = (
   );
 };
 
-export default CreateEventPage;
+export default withAuthAdmin(CreateEventPage);

@@ -3,6 +3,7 @@
 import React from 'react';
 import axios from '@/helper/axiosInstance';
 import { UserContext } from '@/context/UserContext';
+import { withAuthAdmin } from '@/hoc/authGuard';
 
 interface TransactionType {
   id: number;
@@ -66,4 +67,4 @@ const Transactions: React.FC = () => {
   );
 };
 
-export default Transactions;
+export default withAuthAdmin(Transactions);

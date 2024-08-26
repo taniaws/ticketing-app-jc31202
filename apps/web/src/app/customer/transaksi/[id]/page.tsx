@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import * as React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { withAuthUser } from '@/hoc/authGuard';
 
 interface TransaksiPageProps {
   params: {
@@ -137,4 +138,4 @@ const TransaksiPage: React.FunctionComponent<TransaksiPageProps> = ({
   );
 };
 
-export default TransaksiPage;
+export default withAuthUser(TransaksiPage);

@@ -1,4 +1,5 @@
 'use client';
+import { withAuthUser } from '@/hoc/authGuard';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import * as React from 'react';
@@ -44,4 +45,4 @@ const Validasi: React.FunctionComponent<IValidasiProps> = ({ params }) => {
   );
 };
 
-export default Validasi;
+export default withAuthUser(Validasi);

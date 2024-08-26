@@ -10,6 +10,7 @@ import { data } from 'cypress/types/jquery';
 import { useRouter } from 'next/navigation';
 import { Pagination } from '@/components/ui/pagination';
 import page from '@/app/page';
+import { withAuthUser } from '@/hoc/authGuard';
 
 interface IMyEventProps {
   id: number;
@@ -236,4 +237,4 @@ const MyEvent: React.FunctionComponent<IMyEventProps> = () => {
   );
 };
 
-export default MyEvent;
+export default withAuthUser(MyEvent);

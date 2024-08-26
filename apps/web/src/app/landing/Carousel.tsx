@@ -5,6 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { withAuthUser } from '@/hoc/authGuard';
 import { url } from 'inspector';
 import Image from 'next/image';
 import { title } from 'process';
@@ -57,4 +58,4 @@ const Carousel: React.FunctionComponent<ICarouselProps> = (props) => {
   );
 };
 
-export default Carousel;
+export default withAuthUser(Carousel);
