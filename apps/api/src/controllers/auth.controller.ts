@@ -46,7 +46,7 @@ export class AuthController {
         success: true,
         message: 'Your account is created',
         userId: user.id,
-        referralcode: newReferralCode,
+        referralCode: newReferralCode,
       });
     } catch (error) {
       console.log(error);

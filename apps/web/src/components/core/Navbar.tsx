@@ -48,7 +48,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
           <div className="flex-1">
             <NavigationMenu className="list-none flex gap-7 font-semibold justify-between">
               <NavigationMenuItem>
-                <Link href="/landing">Home</Link>
+                <Link href="/">Home</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/customer/event">Events</Link>
