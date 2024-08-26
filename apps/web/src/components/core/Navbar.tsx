@@ -54,7 +54,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
                 <Link href="/customer/event">Events</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/customer/tickets">Tickets</Link>
+                <Link href="/aboutus">About us</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/customer/points">Points</Link>

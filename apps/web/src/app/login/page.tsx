@@ -3,7 +3,6 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import axios from '@/helper/axiosInstance';
-import { toast } from 'react-toastify';
 import { LoginContext, UserContext } from '@/context/UserContext';
 import Link from 'next/link';
 
@@ -32,7 +31,6 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
 
       console.log('DATA AFTER LOGIN::', data);
 
-      toast(`Welcome ${data.result.email}`);
       localStorage.setItem('auth', data.result.token);
       setIsLoggedIn(true);
       setUser({
@@ -50,7 +48,6 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       }
     } catch (error: any) {
       console.log(error);
-      toast(error.response.data.error.message);
     }
   };
 

@@ -178,11 +178,15 @@ export class EventController {
               locationName: true,
             },
           },
+          categori: {
+            select: {
+              categoriName: true,
+            },
+          },
           userId: true,
           type: true,
           status: true,
           deskripsiEvent: true,
-          categoriId: true,
           imgEvent: true,
           harga: true,
         },
@@ -204,6 +208,10 @@ export class EventController {
       const GetDetailEvent = await prisma.event.findUnique({
         where: {
           id: Number(req.params.id),
+        },
+        include: {
+          location: true,
+          categori: true,
         },
       });
       return res.status(200).send({

@@ -1,15 +1,14 @@
-"use client"
+'use client';
 
 import { withAuthAdmin } from '@/hoc/authGuard';
 import * as React from 'react';
 
-interface IRegistrationProps {
-}
+interface IRegistrationProps {}
 
 const Registration: React.FunctionComponent<IRegistrationProps> = (props) => {
   return (
     <div>
-        Attendee Registration
+      <h1>User Payment</h1>
     </div>
   );
 };

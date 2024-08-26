@@ -27,44 +27,11 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
   const [status, setStatus] = React.useState('');
   const [categoriId, setCategoriId] = React.useState('');
   const [tanggalEvent, setTanggalEvent] = React.useState('');
-  const [imageEvent, setImageEvent] = React.useState<File | null>(null);
-  const [imageUrl, setImageUrl] = React.useState<string>('');
+  const [imageEvent, setImageEvent] = React.useState<string>('');
+  // const [imageUrl, setImageUrl] = React.useState<string>('');
   const [hargaEvent, setHargaEvent] = React.useState<Number>(0);
   const [locationData, setLocationData] = React.useState<[]>([]);
   const [CategoriData, setCategoriData] = React.useState<[]>([]);
-  const handleSubmit = async () => {
-    console.log('this is title event', titleEvent);
-    try {
-      const addEvent = new FormData();
-      addEvent.append('namaEvent', titleEvent);
-      addEvent.append('deskripsiEvent', description);
-      addEvent.append('locationId', locationId);
-      addEvent.append('type', type);
-      addEvent.append('status', status);
-      addEvent.append('tanggalEvent', tanggalEvent);
-      addEvent.append('categoriId', categoriId);
-      addEvent.append('harga', String(hargaEvent));
-      if (imageEvent) {
-        addEvent.append('imgEvent', imageEvent);
-      }
-      console.log(tanggalEvent);
-      console.log('data event', addEvent);
-      await axios.patch(
-        `http://localhost:8001/api/event/update/${params.id}`,
-        addEvent,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('auth')}`,
-          },
-        },
-      );
-
-      alert('berhasil buat event');
-    } catch (error) {
-      alert('erorr blog');
-      console.log('create data error', error);
-    }
-  };
   const getDataEvent = async () => {
     try {
       const { data } = await axios.get(
@@ -73,12 +40,13 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
       setTitleEvent(data.data.namaEvent);
       setDescription(data.data.deskripsiEvent);
       setHargaEvent(data.data.harga);
-      setImageEvent(data.data.imageEvent);
-      setLocationId(data.data.locationId);
+      setImageEvent(data.data.imgEvent);
+      setLocationId(data.data.location.locationName);
       setStatus(data.data.status);
       setType(data.data.type);
       setTanggalEvent(new Date(data.data.tanggalEvent).toLocaleDateString());
-      console.log('datanya blog', data.data);
+      setCategoriId(data.data.categori.categoriName);
+      console.log('ini datanya', data.data);
     } catch (error) {
       console.log(error);
     }
@@ -110,50 +78,43 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
   }, []);
   return (
     <div>
-      <h1 className="font-bold text-2xl pl-3">Create Event</h1>
+      <h1 className="font-bold text-2xl pl-3">Detail Event</h1>
       <div className="w-full  flex flex-col p-10 gap-20">
         <div className="w-1/2">
           <div className="gap-10">
-            <input
-              className="pb-5 flex flex-row justify-center"
-              type="file"
-              onChange={(e) => {
-                const files = e.target.files;
-                if (files && files.length > 0) {
-                  setImageEvent(files[0]);
-                  const url = URL.createObjectURL(files[0]);
-                  setImageUrl(url);
-                }
-              }}
-              placeholder="Upload Image"
-            />
-
             <div>
-              <Image width={400} height={400} src={imageUrl} alt=""></Image>
+              <Image
+                width={400}
+                height={400}
+                src={`http://localhost:8001${imageEvent}`}
+                alt=""
+              ></Image>
             </div>
           </div>
           <div>
             <p className="text-lg font-semibold pt-5">Title Event</p>
-            <input
+            {/* <input
               type="text"
               placeholder="title event"
               value={titleEvent}
               onChange={(e) => setTitleEvent(e.target.value)}
               className="border-solid border-b-black border w-full h-12"
-            />
+            /> */}
+            <p>{titleEvent}</p>
           </div>
           <div>
             <p className="text-lg font-semibold pt-5 ">Descriptio</p>
-            <Textarea
+            {/* <Textarea
               placeholder="Drop your description here"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="w-full"
-            />
+            /> */}
+            <p>{description}</p>
           </div>
           <div>
             <p className="text-lg font-semibold pt-5 ">Location</p>
-            <select
+            {/* <select
               value={locationId}
               onChange={(e) => setLocationId(e.target.value)}
             >
@@ -162,20 +123,22 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
                   {locationId.locationName}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <p>{locationId}</p>
           </div>
           <div>
             <p className="text-lg font-semibold pt-5 ">Type Event</p>
-            <input
+            {/* <input
               type="text"
               placeholder="type event"
               value={type}
               onChange={(e) => setType(e.target.value)}
               className="border-solid border-b-black border w-full h-12"
-            />
+            /> */}
+            <p>{type}</p>
           </div>
           <div className="pt-5">
-            <select
+            {/* <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               className="bg-"
@@ -184,11 +147,13 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
               <option value="COMING_SOON">COMING SOON </option>
               <option value="ONGOING">ONGOING</option>
               <option value="COMPLETED">COMPLETED</option>
-            </select>
+            </select> */}
+            <h3>Status</h3>
+            <p>{status}</p>
           </div>
           <div>
             <p className="text-lg font-semibold pt-5 ">Categori</p>
-            <select
+            {/* <select
               value={categoriId}
               onChange={(e) => setCategoriId(e.target.value)}
             >
@@ -197,15 +162,17 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
                   {categoriId.categoriName}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <p>{categoriId}</p>
           </div>
           <div>
             <p className="text-lg font-semibold pt-5">Tanggal </p>
-            <input
+            {/* <input
               type="date"
               value={tanggalEvent}
               onChange={(e) => setTanggalEvent(e.target.value)}
-            />
+            /> */}
+            <p>{tanggalEvent}</p>
             {/* <DatePicker
               selected={tanggalEvent}
               onChange={(e) => setTanggalEvent(e)}
@@ -213,18 +180,24 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
           </div>
           <div>
             <p className="text-lg font-semibold pt-5 ">Harga</p>
-            <input
+            {/* <input
               className="border-solid border-b-black border w-full h-12"
               type="number"
               value={String(hargaEvent)}
               onChange={(e) => setHargaEvent(parseInt(e.target.value))}
-            />
+            /> */}
+            <p>{String(hargaEvent)}</p>
           </div>
         </div>
         <div>
           <div>
-            <Button className="bg-slate-400 shadow-md" onClick={handleSubmit}>
-              Transaksi
+            <Button
+              className="bg-slate-400 shadow-md"
+              onClick={() => {
+                router.replace(`/customer/transaksi/${params.id}`);
+              }}
+            >
+              Lakukan Transaksi
             </Button>
           </div>
         </div>

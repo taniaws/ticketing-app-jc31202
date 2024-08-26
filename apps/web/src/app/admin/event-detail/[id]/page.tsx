@@ -73,7 +73,7 @@ const CreateEventPage: React.FunctionComponent<ICreateEventPageProps> = ({
       setTitleEvent(data.data.namaEvent);
       setDescription(data.data.deskripsiEvent);
       setHargaEvent(data.data.harga);
-      setImageEvent(data.data.imageEvent);
+      setImageEvent(data.data.imgEvent);
       setLocationId(data.data.locationId);
       setStatus(data.data.status);
       setType(data.data.type);
