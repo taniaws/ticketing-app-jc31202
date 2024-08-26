@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { UserContext } from '@/context/UserContext';
 import axios from '@/helper/axiosInstance';
@@ -6,8 +6,7 @@ import { withAuthAdmin } from '@/hoc/authGuard';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
-interface IRegistrationProps {
-}
+interface IRegistrationProps {}
 
 interface Event {
   id: number;

@@ -13,10 +13,12 @@ import { AuthRouter } from './routers/auth.router';
 import { PointsRouter } from './routers/points.router';
 import { DiscountRouter } from './routers/discount.router';
 import { DashboardRouter } from './routers/dashboard.router';
+import { PORT } from './config';
 import path from 'path';
+import { TransaksiRouter } from './routers/transaksi.router';
 
-const PORT = process.env.port;
-console.log('port::', PORT);
+// const PORT = process.env.port;
+// console.log('port::', PORT);
 
 export default class App {
   private app: Express;
@@ -70,9 +72,12 @@ export default class App {
 
     const discountRouter = new DiscountRouter();
     this.app.use('/api/discount', discountRouter.getRoute());
-    
+
     const dashboardRouter = new DashboardRouter();
     this.app.use('/api/dashboard', dashboardRouter.getRoute());
+
+    const transactionRouter = new TransaksiRouter();
+    this.app.use(`/api/transaksi`, transactionRouter.getRoute());
   }
 
   public start(): void {

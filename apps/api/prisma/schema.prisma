@@ -120,6 +120,8 @@ model categori {
   event        event[]
 }
 
+
+
 model detailtransaction {
   id            Int         @id @unique(map: "id") @default(autoincrement())
   transactionId Int

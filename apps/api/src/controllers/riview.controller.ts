@@ -1,7 +1,6 @@
 import prisma from '../prisma';
 import { NextFunction, Request, Response } from 'express';
 
-
 export class feedbackController {
   async feedbackCreate(req: Request, res: Response, next: NextFunction) {
     try {
@@ -14,21 +13,21 @@ export class feedbackController {
       });
 
       if (!event) {
-        return res.status(404).send("Event tidak ditemukan");
+        return res.status(404).send('Event tidak ditemukan');
       }
       if (!user) {
-        return res.status(404).send("User tidak ditemukan");
+        return res.status(404).send('User tidak ditemukan');
       }
       const feedback = await prisma.feedback.create({
         data: {
           feedback: req.body.feedback,
-          event_id: req.body.event_id,
-          user_id: req.body.user_id,
+          eventId: req.body.event_id,
+          userId: req.body.user_id,
         },
       });
-      res.status(201).send("berhasil memberikan feedback");
+      res.status(201).send('berhasil memberikan feedback');
     } catch (error) {
-      res.status(500).send("gagal memberikan feedback");
+      res.status(500).send('gagal memberikan feedback');
     }
   }
 }

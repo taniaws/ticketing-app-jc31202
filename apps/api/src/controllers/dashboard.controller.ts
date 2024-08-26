@@ -1,13 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import prisma from "../prisma";
+import { NextFunction, Request, Response } from 'express';
+import prisma from '../prisma';
 
 interface IDashboard {
-    email: string;
-  }
-  
+  email: string;
+}
 
 export class DashboardController {
-
     //get event list with email
     async getEvent(req: Request, res: Response, next: NextFunction) {
         try {
@@ -323,3 +321,4 @@ export class DashboardController {
 
     
 };
+

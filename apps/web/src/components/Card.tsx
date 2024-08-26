@@ -1,20 +1,31 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import * as React from 'react';
 
-interface ICardticketProps {}
+interface ICardProps {
+  titleEvent: string;
+  ImageEvent: string;
+}
 
-const Cardticket: React.FunctionComponent<ICardticketProps> = (props) => {
-  const router = useRouter();
+const Card: React.FunctionComponent<ICardProps> = (props) => {
   return (
-    <div>
-      <div>
+    <div
+      className="flex w-60 h-60 shadow-md rounded-md items-center justify-center
+  cursor-pointer flex-col xs:w-[100px] xs:h-[100px] xs:pt-5"
+    >
+      <div className="">
+        <Image
+          width={400}
+          height={400}
+          src={`http:${props.ImageEvent}`}
+          alt=""
+          className="flex justify-center items-center"
+        />
         <div>
-          <Image width={200} height={200} src={'/foto/bmth.jpg'} alt=""></Image>
-          <h4 className="font-semibold text-sm">Bring Me To Horizon</h4>
+          <h3 className="text-lg font-bold text-center">{props.titleEvent}</h3>
         </div>
       </div>
     </div>
   );
 };
-export default Cardticket;
+
+export default Card;
