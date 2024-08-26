@@ -2,7 +2,6 @@
 
 import axios from '@/helper/axiosInstance';
 import * as React from 'react';
-import { useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
 import { withAuthAdmin } from '@/hoc/authGuard';
 import Link from 'next/link';
@@ -35,8 +34,9 @@ interface IMyEventProps {
 }
 
 const MyEvent: React.FunctionComponent<IMyEventProps> = (props) => {
+
   const router = useRouter();
-  const { user } = useContext(UserContext);
+  const { user } = React.useContext(UserContext);
   const [events, setEvents] = React.useState<IMyEventProps[]>([]);
   const fetchEvents = async () => {
     try {

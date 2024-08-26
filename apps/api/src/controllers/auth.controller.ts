@@ -45,7 +45,7 @@ export class AuthController {
       return res.status(201).send({
         success: true,
         message: 'Your account is created',
-        user_id: user.id,
+        userId: user.id,
         referralcode: newReferralCode,
       });
     } catch (error) {
@@ -137,7 +137,7 @@ export class AuthController {
             email: findUser?.email,
             noTelp: findUser?.noTelp,
             role: findUser?.role,
-            referral_code: findUser?.referralCode,
+            referralCode: findUser?.referralCode,
             token: createToken(
               { id: findUser.id, email: findUser.email },
               '24h',

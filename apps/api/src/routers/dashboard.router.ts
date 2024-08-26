@@ -12,7 +12,10 @@ export class DashboardRouter {
   }
 
   private initializeRoutes(): void {
-    this.route.get("/getEvent/:id", this.dashboardController.getEvent);
+    this.route.get("/getEvent/:email", this.dashboardController.getEvent);
+    this.route.get("/getAttendee/:email/:eventId", this.dashboardController.getAttendees);
+    this.route.get("/getTransaction/:email", this.dashboardController.getTransaction);
+    this.route.get("/getAttendeeStatistic/:range/:email", this.dashboardController.getRegistrationStatistics);
   }
 
   getRoute(): Router {

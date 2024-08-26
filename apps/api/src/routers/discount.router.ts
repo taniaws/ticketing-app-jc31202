@@ -13,8 +13,9 @@ export class DiscountRouter {
 
   private initializeRoutes(): void {
     this.route.post("/createDiscount", this.discountController.createDiscount);
-    this.route.get("/getDiscount/:userId", this.discountController.getValidDiscount);
+    this.route.get("/getDiscount/:email", this.discountController.getValidDiscount);
     this.route.patch("/deleteDiscount", this.discountController.markExpiredDiscountAsDeleted);
+    this.route.post("/redeemDiscount", this.discountController.redeemDiscount);
   }
 
   getRoute(): Router {

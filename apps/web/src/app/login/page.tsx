@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import axios from '@/helper/axiosInstance';
-import { LoginContext, UserContext } from '@/context/UserContext';
+import { LoginContext, UserContext } from "@/context/UserContext";
 import Link from 'next/link';
 
 interface ILoginProps {}
@@ -28,10 +28,9 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       });
-
       console.log('DATA AFTER LOGIN::', data);
+      localStorage.setItem("auth", data.result.token);
 
-      localStorage.setItem('auth', data.result.token);
       setIsLoggedIn(true);
       setUser({
         name: data.result.name,
@@ -39,10 +38,10 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
         noTelp: data.result.noTelp,
         role: data.result.role,
         password: data.result.password,
-        referral_code: data.result.referral_code,
-      });
-      if (user?.role === 'ADMIN') {
-        router.push('/admin/myevent');
+        referralCode: data.result.referralCode,
+    });
+      if (user?.role === "ADMIN") {
+        router.push("/admin/myevent");
       } else {
         router.push('/');
       }

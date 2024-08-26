@@ -24,12 +24,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 <h1 className="font-bold text-3xl pr-10 text-orange-500 pb-5">
                     Account Information
                 </h1>
-                {/* <div className="flex items-center pb-5 justify-between">
-                    <Link href="/edit-profile" className="text-blue-500 font-semibold text-lg">
-                        Edit Profile
-                    </Link>
-                </div> */}
-                <hr className='border border-b-2 my-5'/>
+                <hr className='border border-b-2 mb-5'/>
                 <div className="flex flex-col pb-5">
                     <h2 className="font-medium text-slate-400 pb-2">Full Name</h2>
                     <p className="px-6 py-5 rounded-md border border-slate-300">{user?.name}</p>

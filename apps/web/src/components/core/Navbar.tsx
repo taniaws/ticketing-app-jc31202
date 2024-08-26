@@ -57,10 +57,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
                 <Link href="/aboutus">About us</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/customer/points">Points</Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/customer/review">Reviews</Link>
+                <Link href="/customer/rewards">Rewards</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/customer/profile">Profile</Link>
@@ -79,6 +76,9 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/admin/registration">Registration</Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/admin/transactions">Transactions</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/admin/statistics">Statistics</Link>
