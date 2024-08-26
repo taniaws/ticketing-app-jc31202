@@ -3,7 +3,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import Carousel from './landing/Carousel';
+// import Carousel from './landing/Carousel';
 interface IBannerProps {}
 
 const Home: React.FunctionComponent<IBannerProps> = (props) => {
@@ -17,10 +17,11 @@ const Home: React.FunctionComponent<IBannerProps> = (props) => {
   };
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-[80vh] bg-">
+      <h1 className='text-6xl font-bold pb-4'> BAD EVENT SURABAYA </h1>
       <Image width="500" height="500" src="/meteor.png" alt=""></Image>
-      <div>
+      {/* <div>
         <Carousel />
-      </div>
+      </div> */}
     </div>
   );
 };

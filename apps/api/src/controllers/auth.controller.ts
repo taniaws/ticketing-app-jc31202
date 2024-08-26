@@ -100,7 +100,7 @@ export class AuthController {
             name: findUser.name,
             email: findUser.email,
             password: findUser.password,
-            referral_code: findUser.referralCode,
+            referralCode: findUser.referralCode,
             role: findUser.role,
             noTelp: findUser.noTelp,
             token: createToken(
